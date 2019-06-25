@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace TheGame
 {
@@ -11,13 +12,25 @@ namespace TheGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D _heroTexture;
+        Texture2D background;
+        Vector2 backPos;
+
+        Animation _aniHero;
         Hero _hero;
 
+        Animation aniEnemy;
+        Enemy enemy;
+
+        Collision collision;
+
+        Map map;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1000;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = 590;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -31,6 +44,13 @@ namespace TheGame
         {
             // TODO: Add your initialization logic here
 
+            map = new Map();
+            _hero = new Hero();
+            enemy = new Enemy();
+
+            aniEnemy = new Animation(enemy.Position, enemy.Texture);
+            _aniHero = new Animation(_hero.Position, _hero.Texture);
+
             base.Initialize();
         }
 
@@ -43,12 +63,12 @@ namespace TheGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //_heroTexture = Content.Load<Texture2D>("idleStand");
-            _hero = new Hero(_heroTexture, new Vector2(200, 200));
+            background = Content.Load<Texture2D>("background1");
+            backPos = new Vector2(0, 0);
 
+            map.ShowMap(Content);
+            enemy.laadContent(Content);
             _hero.laadContent(Content);
-
-
         }
 
         /// <summary>
@@ -70,9 +90,10 @@ namespace TheGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _hero.Update(gameTime);
+            enemy.Update(gameTime, map);
+            _hero.Update(gameTime, map);
 
-
+            collision = new Collision(_aniHero, map);
 
             base.Update(gameTime);
         }
@@ -88,6 +109,11 @@ namespace TheGame
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
+            spriteBatch.Draw(background, backPos, Color.White);
+
+            map.Draw(spriteBatch);
+
+            enemy.Draw(spriteBatch);
             _hero.Draw(spriteBatch);
 
             spriteBatch.End();

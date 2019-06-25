@@ -18,6 +18,7 @@ namespace TheGame
         public bool normalAttack;
         public bool comboAttack;
 
+        public bool hasJumped = false;
 
         public bool Left
         {
@@ -49,9 +50,7 @@ namespace TheGame
             set { comboAttack = value; }
         }
         #endregion
-
-        private Animation _animation;
-
+        
 
         public void update()
         {

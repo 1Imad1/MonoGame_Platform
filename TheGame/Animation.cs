@@ -9,26 +9,18 @@ using System.Threading.Tasks;
 
 namespace TheGame
 {
-    /// <summary>
-    /// bevat alle functionaliteiten die we nodig hebben om da sprite te animeren
-    /// </summary>
+
     public class Animation
     {
         #region Variabele
         public float speed = 2.5f;
-        protected string currentAnimatie; // => houd de animatie die momenteel afspeelt
-        /// <summary>
-        /// protected => variabele kan gebruikt worden in alle klasse die van deze klasse overerven
-        /// </summary>
-        protected Texture2D sTexture;
+        protected string currentAnimatie;
+
         public Vector2 sPosition;
+        public Texture2D sTexture;
+        public Rectangle rectangle;
 
-        /// <summary>
-        /// bavat alle rectangles die we nodig hebben
-        /// </summary>
-        private Rectangle[] sRectangle;
-        private int FrameIndex; //=> om de juiste picture te laten zien
-
+        private int FrameIndex; 
         private double TimeElapse;
         private double TimeToUpdate;
 
@@ -36,13 +28,15 @@ namespace TheGame
         #endregion
 
         #region BoxRondCharachter
+
         public Rectangle BoxRondCharachter
         {
             get
             {
-                return new Rectangle((int)sPosition.X, (int)sPosition.Y, 33, 37);
+                return new Rectangle((int)sPosition.X, (int)sPosition.Y, 50, 41);
             }
         }
+
         #endregion
 
         #region FramePerSec en Animatie constructor
@@ -51,25 +45,17 @@ namespace TheGame
             set { TimeToUpdate = (1f / value); }
         }
 
-        public Animation(Vector2 pos)
+        public Animation(Vector2 pos, Texture2D texture)
         {
             sPosition = pos;
+            sTexture = texture;
         }
         #endregion
 
-        /// <summary>
-        /// we hebben een reeks rechthoeken nodig voor elke animatie die we willen maken
-        /// dus ik maak een soort woordenboek, zodat ik kan zeggen speel animatie walk left af, en dan meot het alle frames gaan afgaan die ermee verbonden zijn
-        /// woordenboek => bevat eigenlijk een sleutel die bevat wat je nodig hebt in de collectie
-        /// </summary>
         private Dictionary<string, Rectangle[]> sAnimatie = new Dictionary<string, Rectangle[]>();
 
         #region Update
-        /// <summary>
-        /// if (TimeElapse > TimeToUpdate)
-        ///      frame veranderen in andere index en time resetten
-        /// </summary>
-        /// <param name="gametime"></param>
+
         public void Update(GameTime gametime)
         {
             TimeElapse += gametime.ElapsedGameTime.TotalSeconds;
@@ -85,7 +71,6 @@ namespace TheGame
                 else
                 {
                     FrameIndex = 0;
-                    //currentAnimatie = "Idle";
                 }
                 TimeElapse = 0;
             }
@@ -96,12 +81,7 @@ namespace TheGame
         #endregion
 
         #region AddAnimatie
-        /// <summary>
-        /// Y = zeggen waar we moeten beginnen
-        /// xStart = zegt welke X-Frame begint
-        /// Naam = naam toevoegen wanneer we een nieuwe animatie toevoegen
-        /// </summary>
-        /// <param name="frames"></param>
+
         public void AddAnimatie(int frames, double yPos, int xStart, string naam, int width, int height, Vector2 offset)
         {
 
@@ -126,7 +106,6 @@ namespace TheGame
         public void Draw(SpriteBatch sprite)
         {
             sprite.Draw(sTexture, sPosition, sAnimatie[currentAnimatie][FrameIndex], Color.White);
-            //sprite.Draw(_Image1,_ImageRect1, mycolor);
         }
         #endregion
 
@@ -142,7 +121,6 @@ namespace TheGame
             {
                 currentAnimatie = animatieNaam;
                 FrameIndex = 0;
-
             }
         }
         #endregion
@@ -153,9 +131,9 @@ namespace TheGame
         /// laad het dan in de texture
         /// </summary>
         /// <param name="content"></param>
-        public void LaadContent(ContentManager content)
+        public void LaadContent(ContentManager content, string afbeelding)
         {
-            sTexture = content.Load<Texture2D>("char");
+            sTexture = content.Load<Texture2D>(afbeelding);
         }
         #endregion
     }
