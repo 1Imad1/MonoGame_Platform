@@ -9,66 +9,71 @@ using System.Threading.Tasks;
 
 namespace A_NewBegining
 {
+
     public class Animation
     {
-        //no laod, no draw, boxroundCharachter, no speed, no direction (velocity)
+        #region Variabele
+        public float speed = 2.5f;
+        protected string currentAnimatie;
 
+        public Vector2 sPosition;
+        public Texture2D sTexture;
+        public Rectangle rectangle;
 
-        public Vector2 Position;
-        public Texture2D Texture;
+        private int FrameIndex;
+        private double TimeElapse;
+        private double TimeToUpdate;
+
         public Vector2 sDirection = Vector2.Zero;
+        #endregion
 
-        public string currentAnimatie;
+        #region BoxRondCharachter
 
-        public int frameIndex;
-        public double timeElapse;
-        public double timeToUpdate;
+        public Rectangle BoxRondCharachter;
+        
 
-        public Rectangle BoxRondCharachter
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, 50, 41);
-            }
-        }
+        #endregion
 
+        #region FramePerSec en Animatie constructor
         public int FramesPerSec
         {
-            set { timeToUpdate = (1f / value); }
+            set { TimeToUpdate = (1f / value); }
         }
 
-        public Animation(Vector2 pos, Texture2D txt, Vector2 velocity, Rectangle rectangle)
+        public Animation(Vector2 pos, Texture2D texture, Rectangle rect)
         {
-            Position = pos;
-            Texture = txt;
-            sDirection = velocity;
-            rectangle = BoxRondCharachter;
+            BoxRondCharachter = rect;
+            sPosition = pos;
+            sTexture = texture;
         }
+        #endregion
 
-        public Dictionary<string, Rectangle[]> Animatie = new Dictionary<string, Rectangle[]>();
+        private Dictionary<string, Rectangle[]> sAnimatie = new Dictionary<string, Rectangle[]>();
+
+        #region Update
 
         public void Update(GameTime gametime)
         {
-            timeElapse += gametime.ElapsedGameTime.TotalSeconds;
+            TimeElapse += gametime.ElapsedGameTime.TotalSeconds;
 
-            if (timeElapse > timeToUpdate)
+            if (TimeElapse > TimeToUpdate)
             {
-                timeElapse -= timeToUpdate;
+                TimeElapse -= TimeToUpdate;
 
-                if (frameIndex < Animatie[currentAnimatie].Length - 1)
+                if (FrameIndex < sAnimatie[currentAnimatie].Length - 1)
                 {
-                    frameIndex++;
+                    FrameIndex++;
                 }
                 else
                 {
-                    frameIndex = 0;
+                    FrameIndex = 0;
                 }
-                timeElapse = 0;
+                TimeElapse = 0;
             }
-
-            Position += sDirection;
-            sDirection = Vector2.Zero;
         }
+        #endregion
+
+        #region AddAnimatie
 
         public void AddAnimatie(int frames, double yPos, int xStart, string naam, int width, int height, Vector2 offset)
         {
@@ -81,26 +86,48 @@ namespace A_NewBegining
                 Rectangles[i] = new Rectangle((i + xStart) * width, (int)yPos, width, height);
             }
 
-            Animatie.Add(naam, Rectangles);
+            sAnimatie.Add(naam, Rectangles);
         }
+        #endregion
 
+        #region Draw
+        /// <summary>
+        /// sAnimatie[currentAnimatie][FrameIndex]
+        ///     toegang tot de animatie woordenboek en hierin zoeken we de current animatie en hierop zoeken we de frame van de frameindex
+        /// </summary>
+        /// <param name="sprite"></param>
+        public void Draw(SpriteBatch sprite)
+        {
+            sprite.Draw(sTexture, sPosition, sAnimatie[currentAnimatie][FrameIndex], Color.White);
+        }
+        #endregion
+
+        #region AnimatieAfspelen
+        /// <summary>
+        /// mag alleen veranderen als er een nieuwe animatie is
+        //FrameIndex = 0 => zorgt ervoor dat we geen index buiten de grenzen krijgen, bv we spelen onze run animatie af en dit heeft 9 frames bijvoorbeeld, en we schakellen over naar en er is maar 1 frame erin dan krijgen we een index out of bound
+        /// </summary>
+        /// <param name="animatieNaam"></param>
         public void AnimatieAfspelen(string animatieNaam)
         {
             if (currentAnimatie != animatieNaam)
             {
                 currentAnimatie = animatieNaam;
-                frameIndex = 0;
+                FrameIndex = 0;
             }
         }
+        #endregion
 
-        public void LaadContent(ContentManager content, string afbeelding)
+        #region LoadContent
+        /// <summary>
+        /// het geeft de speler een afbeelding die je hebt meegegeven
+        /// laad het dan in de texture
+        /// </summary>
+        /// <param name="content"></param>
+        public void LaadContent(ContentManager content)
         {
-            Texture = content.Load<Texture2D>(afbeelding);
+            sTexture = content.Load<Texture2D>("char");
         }
-
-        public void Draw(SpriteBatch sprite, string current, int frameindex)
-        {
-            sprite.Draw(Texture, Animatie[current][frameindex], Color.White);
-        }
+        #endregion
     }
 }

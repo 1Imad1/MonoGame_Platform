@@ -13,7 +13,8 @@ namespace A_NewBegining
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        MapEngine map;
+        Map First_half;
+
         Player player;
         Enemy enemy;
         Camera camera;
@@ -34,8 +35,9 @@ namespace A_NewBegining
         {
             // TODO: Add your initialization logic here
 
-            map = new MapEngine();
+            First_half = new Map();
             enemy = new Enemy();
+            player = new Player();
 
             base.Initialize();
         }
@@ -49,24 +51,15 @@ namespace A_NewBegining
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player = new Player(Content);
+            player.LaadContent(Content);
 
             enemy.load(Content);
             Tiles.Content = Content;
 
             camera = new Camera(GraphicsDevice.Viewport);
 
-            map.Generate(new int[,]{
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-                {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,},
-                {2,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,1,2,2,},
-                {2,2,1,1,1,0,0,0,0,1,1,1,2,2,2,1,0,0,0,0,2,2,},
-                {2,2,0,0,0,0,0,0,1,2,2,2,2,2,2,2,1,0,0,0,2,2,},
-                {2,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,1,1,1,2,2,},
-                {2,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,},
-                {2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,}
-            }, 64);
+            First_half.level_one(Content);
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -92,18 +85,17 @@ namespace A_NewBegining
 
             // TODO: Add your update logic here
 
-
-            foreach (CollisionTiles tile in map.CollisionTiles)
-            {
-                player.Collision(tile.Rectangle, map.Width, map.Height);
-                enemy.Collision(tile.Rectangle, map.Width, map.Height);
-
-
-                camera.Update(player.Position, map.Width, map.Height);
-            }
-
             player.Update(gameTime);
             enemy.Update(gameTime);
+
+            foreach (CollisionTiles tile in First_half.CollisionTiles)
+            {
+                player.Collision(tile.Rectangle, First_half.Width, First_half.Height);
+                enemy.Collision(tile.Rectangle, First_half.Width, First_half.Height);
+
+
+                camera.Update(player.Position, First_half.Width, First_half.Height);
+            }
 
             player.ColideBetweenPlayers(enemy.rectangle, player.rectangle);
 
@@ -125,7 +117,7 @@ namespace A_NewBegining
                               null,null,null,null,
                               camera.Transform);
 
-            map.Draw(spriteBatch);
+            First_half.Draw(spriteBatch);
             player.Draw(spriteBatch);
             enemy.Draw(spriteBatch);
             spriteBatch.End();
