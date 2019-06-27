@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,24 +13,38 @@ namespace TheGame
 {
     public class Hero
     {
-        public Vector2 Positie { get; set; }
-        private Texture2D Texture { get; set; }
-        private Rectangle _ShowRect;
+        Collision collision;
+        public Vector2 position = new Vector2(54, 485);
+        public Vector2 Position
+        {
+            get { return position; }
+        }
+
+        public Texture2D texture;
+        public Texture2D Texture
+        {
+            get { return texture; }
+        }
+
+        public int Width { get; set; }
+        public int Height { get; set; }
+
 
         private Animation _animation;
         private Inputs inputH = new Inputs();
 
-        public Vector2 VelocityX = new Vector2(2, 0);
         public bool LinkseStand = false;
 
-        public Hero(Texture2D _texture, Vector2 _positie)
+        private Rectangle collisionRectangle;
+        public Rectangle CollisionRectangle
         {
-            Texture = _texture;
-            Positie = _positie;//new Vector2(200, 200);
-            _ShowRect = new Rectangle(0, 0, 64, 205);
+            get { return collisionRectangle; }
+            protected set { collisionRectangle = value; }
+        }
 
-
-            _animation = new Animation(Positie);
+        public Hero()
+        {
+            _animation = new Animation(position, texture);
 
             _animation.AddAnimatie(4, 0, 0, "RechteIdle", 50, 35, new Vector2(0, 0));
             _animation.AddAnimatie(4, 34, 0, "LinkseIdle", 50, 35, new Vector2(0, 0));
@@ -43,33 +58,55 @@ namespace TheGame
 
             _animation.AnimatieAfspelen("RechteIdle");
 
-            _animation.FramesPerSec = 8;
+            _animation.FramesPerSec = 10;
+
+
         }
 
+        public void Draw(SpriteBatch spritebatch)
+        {
+            _animation.Draw(spritebatch);
+        }
 
-        public void Update(GameTime gameTime)
+        public void laadContent(ContentManager content)
+        {
+            _animation.LaadContent(content, "char");
+        }
+
+        public void Update(GameTime gameTime, Map map)
         {
             _animation.Update(gameTime);
+            position += _animation.sDirection;
 
             inputH.update();
-            Move();
+
+            collision = new Collision(_animation, map);
+
+            collision.Update(inputH);
+            Move(gameTime);
 
         }
 
-        private void Move()
+        private void Move(GameTime gameTime)
         {
-
             if (inputH.Right)
             {
                 _animation.AnimatieAfspelen("Right");
                 _animation.sDirection.X = _animation.speed;
+
                 LinkseStand = false;
             }
             else if (inputH.Left)
             {
                 _animation.AnimatieAfspelen("Left");
                 _animation.sDirection.X -= _animation.speed;
+
                 LinkseStand = true;
+            }
+            else if (inputH.Up)
+            {
+                _animation.AnimatieAfspelen("Jump");
+                _animation.sDirection.Y -= _animation.speed;
             }
             else if (inputH.NormalAttack)
             {
@@ -85,17 +122,8 @@ namespace TheGame
                     _animation.AnimatieAfspelen("LinkseIdle");
                 else
                     _animation.AnimatieAfspelen("RechteIdle");
+                _animation.sDirection.X = 0f;
             }
-        }
-
-        public void Draw(SpriteBatch spritebatch)
-        {
-            _animation.Draw(spritebatch);
-        }
-
-        public void laadContent(ContentManager content)
-        {
-            _animation.LaadContent(content);
         }
     }
 }

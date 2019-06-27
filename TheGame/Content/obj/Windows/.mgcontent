@@ -4,8 +4,13 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/TheGame/Content/background1.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/TheGame/Content/charachter.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/TheGame/Content/char.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/background1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/charachter.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/char.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/Tile1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/Tile2.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/vierkant.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/enemy.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/MonoGame_Platform/TheGame/Content/Tile3.png</File>
   </SourceFiles>
 </SourceFileCollection>
