@@ -12,25 +12,50 @@ namespace A_NewBegining
 {
     public class Enemy
     {
-        private Texture2D texture;
         public Rectangle rectangle;
         private Vector2 velocity;
 
-        private Vector2 position = new Vector2(220, 75);
+        private Vector2 position;
         public Vector2 Position
         {
             get { return position; }
         }
 
+        private Texture2D texture;
+        public Texture2D Texture
+        {
+            get { return texture; }
+        }
+
+        Animation animation;
+
         public Enemy()
         {
+            position = new Vector2(220, 0);
+
+            animation = new Animation(position, velocity);
+
+            animation.AddAnimatie(13, 0, 0, "Walk", 22, 34, new Vector2(0, 0));
+            animation.AnimatieAfspelen("Walk");
+
+            animation.FramesPerSec = 10;
+        }
+
+        public void Draw(SpriteBatch sprite)
+        {
+            sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White);
+        }
+
+        public void LaadContent(ContentManager content)
+        {
+            texture = content.Load<Texture2D>("enemy1");
         }
 
         public void Update(GameTime gameTime)
         {
             position += velocity;
-            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
 
+            animation.Update(gameTime);
 
             if (velocity.Y < 10)
                 velocity.Y += 0.4f;
@@ -38,6 +63,7 @@ namespace A_NewBegining
 
         public void Collision(Rectangle newrect, int xOffset, int yOffset)
         {
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 22, 34);
             if (rectangle.IsTouchingTopOf(newrect))
             {
                 rectangle.Y = newrect.Y - rectangle.Height;
@@ -46,11 +72,11 @@ namespace A_NewBegining
 
             if (rectangle.IsTouchingLeftOf(newrect))
             {
-                position.X = newrect.X - rectangle.Width - 2;
+                position.X = newrect.X - rectangle.Width - 1;
             }
             if (rectangle.IsTouchingRightOf(newrect))
             {
-                position.X = newrect.X + rectangle.Width + 10;
+                position.X = newrect.X + rectangle.Width + 2;
             }
 
             if (position.X < 0) position.X = 0;
@@ -58,17 +84,6 @@ namespace A_NewBegining
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.X = yOffset - rectangle.Height;
 
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, rectangle, Color.White);
-
-        }
-
-        public void load(ContentManager content)
-        {
-            texture = content.Load<Texture2D>("enemy1");
         }
     }
 }

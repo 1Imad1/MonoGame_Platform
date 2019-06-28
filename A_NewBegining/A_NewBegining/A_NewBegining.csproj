@@ -46,6 +46,8 @@
     <Compile Include="CollisionTiles.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="IController.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapEngine.cs" />
     <Compile Include="Player.cs" />

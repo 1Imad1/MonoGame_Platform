@@ -32,123 +32,36 @@ namespace A_NewBegining
             get { return texture; }
         }
 
-        protected string currentAnimatie;
-        private int FrameIndex;
-        private double TimeElapse;
-        private double TimeToUpdate;
+        private Input Key = new Input();
+        public bool LinkseStand = false;
 
-        public int FramesPerSec
-        {
-            set { TimeToUpdate = (1f / value); }
-        }
+        Animation animation;
 
         public Player()
         {
-            position = new Vector2(0, 30);
-
+            position = new Vector2(62, 384);
             velocity = Vector2.Zero;
 
-            AddAnimatie(4, 0, 0, "RechteIdle", 50, 35, new Vector2(0, 0));
-            AddAnimatie(4, 34, 0, "LinkseIdle", 50, 35, new Vector2(0, 0));
-            AddAnimatie(6, 72, 0, "Right", 50, 34, new Vector2(0, 0));
-            AddAnimatie(6, 107, 0, "Left", 50, 40, new Vector2(0, 0));
-            AddAnimatie(9, 144, 0, "Jump", 46, 41, new Vector2(0, 0));
-            AddAnimatie(4, 220, 0, "Crouch", 50, 32, new Vector2(0, 0));
-            AddAnimatie(7, 255, 0, "FirstAttack", 50, 45, new Vector2(0, 0));
-            AddAnimatie(14, 300, 0, "ComboAttack", 50, 41, new Vector2(0, 0));
-            AddAnimatie(5, 300, 0, "Dood", 50, 41, new Vector2(0, 0));
+            //hierin animatie adden
+            animation = new Animation(position, velocity);
 
-            AnimatieAfspelen("RechteIdle");
+            animation.AddAnimatie(4, 0, 0, "RechteIdle", 50, 35, new Vector2(0, 0));
+            animation.AddAnimatie(4, 34, 0, "LinkseIdle", 50, 35, new Vector2(0, 0));
+            animation.AddAnimatie(6, 72, 0, "Right", 50, 34, new Vector2(0, 0));
+            animation.AddAnimatie(6, 107.9, 0, "Left", 50, 40, new Vector2(0, 0));
+            animation.AddAnimatie(4, 180, 0, "RightSlide", 50, 32, new Vector2(0, 0));
+            animation.AddAnimatie(4, 180, 4, "LeftSlide", 50, 32, new Vector2(0, 0));
+            animation.AddAnimatie(7, 255, 0, "FirstAttack", 50, 45, new Vector2(0, 0));
+            animation.AddAnimatie(14, 300, 0, "ComboAttack", 50, 41, new Vector2(0, 0));
+            animation.AddAnimatie(5, 300, 0, "Dood", 50, 41, new Vector2(0, 0));
+            animation.AddAnimatie(9, 144, 0, "Jump", 46, 41, new Vector2(0, 0));
 
-            FramesPerSec = 10;
-        }
-
-        private Dictionary<string, Rectangle[]> sAnimatie = new Dictionary<string, Rectangle[]>();
-
-
-        public void Update(GameTime gameTime)
-        {
-
-            position += velocity;
-
-            TimeElapse += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (TimeElapse > TimeToUpdate)
-            {
-                TimeElapse -= TimeToUpdate;
-
-                if (FrameIndex < sAnimatie[currentAnimatie].Length - 1)
-                {
-                    FrameIndex++;
-                }
-                else
-                {
-                    FrameIndex = 0;
-                }
-                TimeElapse = 0;
-            }
-            Input(gameTime);
-
-
-
-            if (velocity.Y < 10)
-                velocity.Y += 0.4f;
-        }
-
-        private void Input(GameTime gameTime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                AnimatieAfspelen("Right");
-                velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                AnimatieAfspelen("Left");
-                velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
-            }
-            else
-            {
-                AnimatieAfspelen("RechteIdle");
-                velocity.X = 0f;
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && hasJumped == false)
-            {
-                position.Y -= 5f;
-                velocity.Y = -9f;
-                hasJumped = true;
-            }
-        }
-
-
-
-        public void AddAnimatie(int frames, double yPos, int xStart, string naam, int width, int height, Vector2 offset)
-        {
-
-            Rectangle[] Rectangles = new Rectangle[frames];
-
-            ///neemt de spritesheet en het verdeelt zich
-            for (int i = 0; i < frames; i++)
-            {
-                Rectangles[i] = new Rectangle((i + xStart) * width, (int)yPos, width, height);
-            }
-
-            sAnimatie.Add(naam, Rectangles);
+            animation.FramesPerSec = 10;
         }
 
         public void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(texture, position, sAnimatie[currentAnimatie][FrameIndex], Color.White);
-        }
-
-        public void AnimatieAfspelen(string animatieNaam)
-        {
-            if (currentAnimatie != animatieNaam)
-            {
-                currentAnimatie = animatieNaam;
-                FrameIndex = 0;
-            }
+            sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White);
         }
 
         public void LaadContent(ContentManager content)
@@ -156,11 +69,78 @@ namespace A_NewBegining
             texture = content.Load<Texture2D>("char");
         }
 
+        public void Update(GameTime gameTime)
+        {
+            position += velocity;
+
+            //animatie update
+            animation.Update(gameTime);
+
+            Key.update();
+            Movement(gameTime);
+
+            if (velocity.Y < 10)
+                velocity.Y += 0.4f;
+
+            Debug.WriteLine("Positie.X" + position.X);
+            Debug.WriteLine("Positie.Y" + position.Y);
+        }
+
+        public void Movement(GameTime gameTime)
+        {
+            //animatie afspelen in de input
+            if (Key.Right)
+            {
+                animation.AnimatieAfspelen("Right");
+                velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+
+                LinkseStand = false;
+            }
+            else if (Key.Left)
+            {
+                animation.AnimatieAfspelen("Left");
+                velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+
+                LinkseStand = true;
+            }
+            else if (Key.Down && LinkseStand == false)
+            {
+                animation.AnimatieAfspelen("RightSlide");
+            }
+            else if ((Key.Down && LinkseStand == true))
+            {
+                animation.AnimatieAfspelen("LeftSlide");
+            }
+            else if (Key.NormalAttack)
+            {
+                animation.AnimatieAfspelen("FirstAttack");
+            }
+            else if (Key.ComboAttack)
+            {
+                animation.AnimatieAfspelen("ComboAttack");
+            }
+            else
+            {
+                if (LinkseStand == true)
+                    animation.AnimatieAfspelen("LinkseIdle");
+                else
+                    animation.AnimatieAfspelen("RechteIdle");
+                velocity.X = 0f;
+            }
+
+
+            if (Key.up && hasJumped == false)
+            {
+                position.Y -= 5f;
+                velocity.Y = -9f;
+                hasJumped = true;
+
+            }
+        }
+
         public void Collision(Rectangle newrect, int xOffset, int yOffset)
         {
-
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 35/*texture.Width, texture.Height*/);
-
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 35);
             if (rectangle.IsTouchingTopOf(newrect))
             {
                 rectangle.Y = newrect.Y - rectangle.Height;
@@ -185,7 +165,6 @@ namespace A_NewBegining
             if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.X = yOffset - rectangle.Height;
-
         }
 
         public void ColideBetweenPlayers(Rectangle enemy, Rectangle player)
@@ -199,7 +178,7 @@ namespace A_NewBegining
                 }
                 else if (player.IsTouchingRightOf(enemy))
                 {
-                    position.X = enemy.X + rectangle.Width + 2;
+                    position.X = enemy.X + rectangle.Width - 28;
                     Debug.WriteLine("hit right of enemy");
                 }
 
@@ -213,14 +192,260 @@ namespace A_NewBegining
             }
         }
 
-        //public void Draw(SpriteBatch spriteBatch)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public Rectangle rectangle;
+
+        //public Vector2 velocity;
+        //private bool hasJumped = false;
+
+        //public float speed = 2.5f;
+
+        //private Vector2 position;
+        //public Vector2 Position
         //{
-        //    spriteBatch.Draw(texture, rectangle, Color.White);
+        //    get { return position; }
         //}
 
-        //public void load(ContentManager content)
+        //private Texture2D texture;
+        //public Texture2D Texture
+        //{
+        //    get { return texture; }
+        //}
+
+        //private Input Key = new Input();
+        //public bool LinkseStand = false;
+
+
+        //protected string currentAnimatie;
+        //private int FrameIndex;
+        //private double TimeElapse;
+        //private double TimeToUpdate;
+
+        //public int FramesPerSec
+        //{
+        //    set { TimeToUpdate = (1f / value); }
+        //}
+
+        //public Player()
+        //{
+        //    position = new Vector2(0, 30);
+
+        //    velocity = Vector2.Zero;
+
+        //    //hierin animatie adden
+        //    AddAnimatie(4, 0, 0, "RechteIdle", 50, 35, new Vector2(0, 0));
+        //    AddAnimatie(4, 34, 0, "LinkseIdle", 50, 35, new Vector2(0, 0));
+        //    AddAnimatie(6, 72, 0, "Right", 50, 34, new Vector2(0, 0));
+        //    AddAnimatie(6, 107, 0, "Left", 50, 40, new Vector2(0, 0));
+        //    AddAnimatie(4, 180, 0, "RightSlide", 50, 32, new Vector2(0, 0));
+        //    AddAnimatie(4, 180, 4, "LeftSlide", 50, 32, new Vector2(0, 0));
+        //    AddAnimatie(7, 255, 0, "FirstAttack", 50, 45, new Vector2(0, 0));
+        //    AddAnimatie(14, 300, 0, "ComboAttack", 50, 41, new Vector2(0, 0));
+        //    AddAnimatie(5, 300, 0, "Dood", 50, 41, new Vector2(0, 0));
+        //    AddAnimatie(9, 144, 0, "Jump", 46, 41, new Vector2(0, 0));
+
+        //    FramesPerSec = 10;
+        //}
+
+        //private Dictionary<string, Rectangle[]> sAnimatie = new Dictionary<string, Rectangle[]>();
+
+
+        //public void Update(GameTime gameTime)
+        //{
+
+        //    position += velocity;
+
+        //    //animatie update
+        //    TimeElapse += gameTime.ElapsedGameTime.TotalSeconds;
+
+        //    if (TimeElapse > TimeToUpdate)
+        //    {
+        //        TimeElapse -= TimeToUpdate;
+
+        //        if (FrameIndex < sAnimatie[currentAnimatie].Length - 1)
+        //        {
+        //            FrameIndex++;
+        //        }
+        //        else
+        //        {
+        //            FrameIndex = 0;
+        //        }
+        //        TimeElapse = 0;
+        //    }
+
+        //    Key.update();
+        //    Movement(gameTime);
+
+        //    if (velocity.Y < 10)
+        //        velocity.Y += 0.4f;
+        //}
+
+        //public void Movement(GameTime gameTime)
+        //{
+        //    //animatie afspelen in de input
+        //    if (Key.Right)
+        //    {
+        //        AnimatieAfspelen("Right");
+        //        velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+
+        //        LinkseStand = false;
+        //    }
+        //    else if (Key.Left)
+        //    {
+        //        AnimatieAfspelen("Left");
+        //        velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+
+        //        LinkseStand = true;
+        //    }
+        //    else if (Key.Down && LinkseStand == false)
+        //    {
+        //        AnimatieAfspelen("RightSlide");
+        //    }
+        //    else if ((Key.Down && LinkseStand == true))
+        //    {
+        //        AnimatieAfspelen("LeftSlide");
+        //    }
+        //    else if (Key.NormalAttack)
+        //    {
+        //        AnimatieAfspelen("FirstAttack");
+        //    }
+        //    else if (Key.ComboAttack)
+        //    {
+        //        AnimatieAfspelen("ComboAttack");
+        //    }
+        //    else
+        //    {
+        //        if (LinkseStand == true)
+        //            AnimatieAfspelen("LinkseIdle");
+        //        else
+        //            AnimatieAfspelen("RechteIdle");
+        //        velocity.X = 0f;
+        //    }
+
+
+        //    if (Key.up && hasJumped == false)
+        //    {
+        //        position.Y -= 5f;
+        //        velocity.Y = -9f;
+        //        hasJumped = true;
+
+        //    }
+        //}
+
+        //public void AddAnimatie(int frames, double yPos, int xStart, string naam, int width, int height, Vector2 offset)
+        //{
+
+        //    Rectangle[] Rectangles = new Rectangle[frames];
+
+        //    ///neemt de spritesheet en het verdeelt zich
+        //    for (int i = 0; i < frames; i++)
+        //    {
+        //        Rectangles[i] = new Rectangle((i + xStart) * width, (int)yPos, width, height);
+        //    }
+
+        //    sAnimatie.Add(naam, Rectangles);
+        //}
+
+        //public void Draw(SpriteBatch sprite)
+        //{
+        //    sprite.Draw(texture, position, sAnimatie[currentAnimatie][FrameIndex], Color.White);
+        //}
+
+        //public void AnimatieAfspelen(string animatieNaam)
+        //{
+        //    if (currentAnimatie != animatieNaam)
+        //    {
+        //        currentAnimatie = animatieNaam;
+        //        FrameIndex = 0;
+        //    }
+        //}
+
+        //public void LaadContent(ContentManager content)
         //{
         //    texture = content.Load<Texture2D>("char");
+        //}
+
+        //public void Collision(Rectangle newrect, int xOffset, int yOffset)
+        //{
+        //    rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 35/*texture.Width, texture.Height)*/);
+
+        //    if (rectangle.IsTouchingTopOf(newrect))
+        //    {
+        //        rectangle.Y = newrect.Y - rectangle.Height;
+        //        velocity.Y = 0;
+        //        hasJumped = false;
+        //    }
+
+        //    if (rectangle.IsTouchingLeftOf(newrect))
+        //    {
+        //        position.X = newrect.X - rectangle.Width - 2;
+        //    }
+        //    if (rectangle.IsTouchingRightOf(newrect))
+        //    {
+        //        position.X = newrect.X + rectangle.Width + 15;
+        //    }
+        //    if (rectangle.IsTouchingBottom(newrect))
+        //    {
+        //        velocity.Y = 1f;
+        //    }
+
+        //    if (position.X < 0) position.X = 0;
+        //    if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
+        //    if (position.Y < 0) velocity.Y = 1f;
+        //    if (position.Y > yOffset - rectangle.Height) position.X = yOffset - rectangle.Height;
+        //}
+
+        //public void ColideBetweenPlayers(Rectangle enemy, Rectangle player)
+        //{
+        //    if (player.Intersects(enemy))
+        //    {
+        //        if (player.IsTouchingLeftOf(enemy))
+        //        {
+        //            position.X = enemy.X - rectangle.Width - 2;
+        //            Debug.WriteLine("hit left of enemy");
+        //        }
+        //        else if (player.IsTouchingRightOf(enemy))
+        //        {
+        //            position.X = enemy.X + rectangle.Width + 2;
+        //            Debug.WriteLine("hit right of enemy");
+        //        }
+
+        //        if (player.IsTouchingTopOf(enemy))
+        //        {
+        //            rectangle.Y = enemy.Y - rectangle.Height;
+        //            velocity.Y = 0f;
+        //            hasJumped = false;
+        //            Debug.WriteLine("hit top of enemy");
+        //        }
+        //    }
         //}
     }
 }

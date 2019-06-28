@@ -31,4 +31,4 @@ C:\Users\Imad\Documents\2deJaar\Sem1\Game Dev 6Stud\A_NewBegining\A_NewBegining\
 C:\Users\Imad\Documents\2deJaar\Sem1\Game Dev 6Stud\A_NewBegining\A_NewBegining\bin\Windows\x86\Debug\Content\enemy1.xnb
 C:\Users\Imad\Documents\2deJaar\Sem1\Game Dev 6Stud\A_NewBegining\A_NewBegining\bin\Windows\x86\Debug\Content\walkleft.xnb
 C:\Users\Imad\Documents\2deJaar\Sem1\Game Dev 6Stud\A_NewBegining\A_NewBegining\bin\Windows\x86\Debug\Content\walkRight.xnb
-C:\Users\Imad\Documents\2deJaar\Sem1\Game Dev 6Stud\A_NewBegining\A_NewBegining\bin\Windows\x86\Debug\Content\Tile3.xnb
+C:\Users\Imad\Documents\2deJaar\Sem1\Game Dev 6Stud\A_NewBegining\A_NewBegining\bin\Windows\x86\Debug\Content\Background.xnb
