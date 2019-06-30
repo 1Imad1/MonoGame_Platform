@@ -39,7 +39,7 @@ namespace A_NewBegining
 
         public Player()
         {
-            position = new Vector2(62, 384);
+            position = new Vector2(0, 0);
             velocity = Vector2.Zero;
 
             //hierin animatie adden
@@ -61,7 +61,7 @@ namespace A_NewBegining
 
         public void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White);
+            sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
         }
 
         public void LaadContent(ContentManager content)
@@ -79,11 +79,10 @@ namespace A_NewBegining
             Key.update();
             Movement(gameTime);
 
+            
+
             if (velocity.Y < 10)
                 velocity.Y += 0.4f;
-
-            Debug.WriteLine("Positie.X" + position.X);
-            Debug.WriteLine("Positie.Y" + position.Y);
         }
 
         public void Movement(GameTime gameTime)
@@ -140,7 +139,7 @@ namespace A_NewBegining
 
         public void Collision(Rectangle newrect, int xOffset, int yOffset)
         {
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 35);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 38, 50);
             if (rectangle.IsTouchingTopOf(newrect))
             {
                 rectangle.Y = newrect.Y - rectangle.Height;
@@ -150,14 +149,15 @@ namespace A_NewBegining
 
             if (rectangle.IsTouchingLeftOf(newrect))
             {
-                position.X = newrect.X - rectangle.Width - 2;
+                position.X = newrect.X - rectangle.Width - 16;
             }
             if (rectangle.IsTouchingRightOf(newrect))
             {
-                position.X = newrect.X + rectangle.Width + 15;
+                position.X = newrect.X + rectangle.Width + 2 ;
             }
             if (rectangle.IsTouchingBottom(newrect))
             {
+                //rectangle.Y = rectangle.Y + rectangle.Height;
                 velocity.Y = 1f;
             }
 
@@ -171,15 +171,20 @@ namespace A_NewBegining
         {
             if (player.Intersects(enemy))
             {
-                if (player.IsTouchingLeftOf(enemy))
+                if (player.Right <= enemy.Right &&
+                    player.Right >= enemy.Left + 2 &&
+                    player.Top <= enemy.Bottom - (enemy.Width / 4) &&
+                    player.Bottom >= enemy.Top + (enemy.Width / 4))
                 {
                     position.X = enemy.X - rectangle.Width - 2;
-                    Debug.WriteLine("hit left of enemy");
                 }
-                else if (player.IsTouchingRightOf(enemy))
+
+                if (player.Left >= enemy.Left &&
+                    player.Left <= enemy.Right - 20 &&
+                    player.Top <= enemy.Bottom - (enemy.Width / 4) &&
+                    player.Bottom >= enemy.Top + (enemy.Width / 4))
                 {
-                    position.X = enemy.X + rectangle.Width - 28;
-                    Debug.WriteLine("hit right of enemy");
+                    position.X = enemy.X + rectangle.Width - 26;
                 }
 
                 if (player.IsTouchingTopOf(enemy))
@@ -187,32 +192,9 @@ namespace A_NewBegining
                     rectangle.Y = enemy.Y - rectangle.Height;
                     velocity.Y = 0f;
                     hasJumped = false;
-                    Debug.WriteLine("hit top of enemy");
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

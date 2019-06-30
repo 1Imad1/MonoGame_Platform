@@ -10,7 +10,7 @@ namespace A_NewBegining
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Map First_half;
+        Map map;
 
         Player player;
         Enemy enemy;
@@ -28,9 +28,9 @@ namespace A_NewBegining
         protected override void Initialize()
         {
 
-            First_half = new Map();
+            map = new Map();
 
-            enemy = new Enemy();
+            enemy = new Enemy(80);
             player = new Player();
 
             base.Initialize();
@@ -47,14 +47,20 @@ namespace A_NewBegining
             backPos = new Vector2(0, 0);
 
             Tiles.Content = Content;
-            First_half.level_one(Content);
+
+            if(player.Position.X > 1300)
+                map.level_two(Content);
+
+            map.level_one(Content);
 
             camera = new Camera(GraphicsDevice.Viewport);
         }
 
         protected override void UnloadContent()
         {
-
+            if(player.Position.X == 1300)
+            {
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,15 +71,14 @@ namespace A_NewBegining
             player.Update(gameTime);
             enemy.Update(gameTime);
 
-            foreach (CollisionTiles tile in First_half.CollisionTiles)
+            foreach (CollisionTiles tile in map.CollisionTiles)
             {
-                player.Collision(tile.Rectangle, First_half.Width, First_half.Height);
-                enemy.Collision(tile.Rectangle, First_half.Width, First_half.Height);
-
-                camera.Update(player.Position, First_half.Width, First_half.Height);
+                player.Collision(tile.Rectangle, map.Width, map.Height);
+                enemy.Collision(tile.Rectangle, map.Width, map.Height);
+                camera.Update(player.Position, map.Width, map.Height);
+                player.ColideBetweenPlayers(enemy.rectangle, player.rectangle);
             }
 
-            player.ColideBetweenPlayers(enemy.rectangle, player.rectangle);
             base.Update(gameTime);
         }
 
@@ -87,8 +92,9 @@ namespace A_NewBegining
                               camera.Transform);
             spriteBatch.Draw(background, backPos, Color.White);
 
-            First_half.Draw(spriteBatch);
+            map.Draw(spriteBatch);
 
+            
             player.Draw(spriteBatch);
             enemy.Draw(spriteBatch);
 

@@ -29,51 +29,85 @@ namespace A_NewBegining
 
         Animation animation;
 
-        public Enemy()
+        bool right = false;
+        float distance;
+        float oldDistance;
+        Vector2 origin;
+
+        float rotation = 0f;
+
+        public Enemy(float newDIS)
         {
-            position = new Vector2(220, 0);
+            position = new Vector2(700, 230);
 
             animation = new Animation(position, velocity);
 
-            animation.AddAnimatie(13, 0, 0, "Walk", 22, 34, new Vector2(0, 0));
-            animation.AnimatieAfspelen("Walk");
+            animation.AddAnimatie(10, 0, 0, "Idle", 20, 33, new Vector2(0, 0));
+            animation.AddAnimatie(13, 40, 0, "WalkRight", 22, 34, new Vector2(0, 0));
+            animation.AddAnimatie(13, 75, 0, "WalkLeft", 22, 34, new Vector2(0, 0));
+            animation.AnimatieAfspelen("WalkRight");
 
             animation.FramesPerSec = 10;
-        }
 
-        public void Draw(SpriteBatch sprite)
-        {
-            sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White);
+
+            distance = newDIS;
+            oldDistance = distance;
         }
 
         public void LaadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("enemy1");
+            texture = content.Load<Texture2D>("Skeletonsheet");
         }
 
         public void Update(GameTime gameTime)
         {
             position += velocity;
-
             animation.Update(gameTime);
+            origin = new Vector2(25 / 2, 22 / 2);
 
-            if (velocity.Y < 10)
-                velocity.Y += 0.4f;
+
+            if (distance <= 0)
+            {
+                right = true;
+                animation.AnimatieAfspelen("WalkRight");
+                velocity.X = 1f;
+            }
+            else if (distance >= oldDistance)
+            {
+                right = false;
+                animation.AnimatieAfspelen("WalkLeft");
+                velocity.X = -1f;
+            }
+
+            if (right == true) distance += 1; else distance -= 1;
+
+            //if (velocity.Y < 10)
+            //    velocity.Y += 0.4f;
+        }
+
+        public void Draw(SpriteBatch sprite)
+        {
+            sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White);
+
         }
 
         public void Collision(Rectangle newrect, int xOffset, int yOffset)
         {
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 22, 34);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 28, 33);
+
             if (rectangle.IsTouchingTopOf(newrect))
             {
                 rectangle.Y = newrect.Y - rectangle.Height;
                 velocity.Y = 0f;
+
             }
 
             if (rectangle.IsTouchingLeftOf(newrect))
             {
-                position.X = newrect.X - rectangle.Width - 1;
+                position.X = newrect.X - rectangle.Width - 2;
             }
+
+
             if (rectangle.IsTouchingRightOf(newrect))
             {
                 position.X = newrect.X + rectangle.Width + 2;

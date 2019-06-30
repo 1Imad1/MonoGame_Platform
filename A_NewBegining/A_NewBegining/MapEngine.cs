@@ -44,10 +44,11 @@ namespace A_NewBegining
 
                     if (number > 0)
                     {
-                        collisionTiles.Add(new CollisionTiles(number, new Rectangle(x * size, y * size, size, size)));
-
                         width = (x + 1) * size;
                         height = (y + 1) * size;
+
+                        collisionTiles.Add(new CollisionTiles(number, new Rectangle(x * size, y * size, size, size)));
+
                     }
                 }
             }
