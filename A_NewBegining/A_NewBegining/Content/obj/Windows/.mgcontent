@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/player1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/idle.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/char.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Background.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/enemy1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile2.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/enemy2.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Skeletonsheet.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/button.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/containerHeatlhBar.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/health.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/SuperSlash.png</File>
+  </SourceFiles>
+</SourceFileCollection>
