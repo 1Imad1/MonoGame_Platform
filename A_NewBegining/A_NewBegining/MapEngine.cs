@@ -61,5 +61,21 @@ namespace A_NewBegining
                 tile.Draw(spriteBatch);
             }
         }
+
+        //public void load(ContentManager content)
+        //{
+        //    foreach (CollisionTiles tile in collisionTiles)
+        //    {
+        //        tile.LoadContent(content);
+        //    }
+        //}
+
+        public void Unload()
+        {
+            foreach (CollisionTiles tile in collisionTiles)
+            {
+                tile.UnloadContent();
+            }
+        }
     }
 }

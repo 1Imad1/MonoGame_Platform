@@ -28,10 +28,10 @@ namespace A_NewBegining
         protected override void Initialize()
         {
 
-            map = new Map();
-
             enemy = new Enemy(80);
             player = new Player();
+            map = new Map();
+            map.level_one(Content);
 
             base.Initialize();
         }
@@ -42,32 +42,24 @@ namespace A_NewBegining
 
             player.LaadContent(Content);
             enemy.LaadContent(Content);
-                       
+
             background = Content.Load<Texture2D>("Background");
             backPos = new Vector2(0, 0);
-
-            Tiles.Content = Content;
-
-            if(player.Position.X > 1300)
-                map.level_two(Content);
-
-            map.level_one(Content);
+        
 
             camera = new Camera(GraphicsDevice.Viewport);
         }
 
         protected override void UnloadContent()
         {
-            if(player.Position.X == 1300)
-            {
-            }
+
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+                       
             player.Update(gameTime);
             enemy.Update(gameTime);
 
@@ -75,9 +67,11 @@ namespace A_NewBegining
             {
                 player.Collision(tile.Rectangle, map.Width, map.Height);
                 enemy.Collision(tile.Rectangle, map.Width, map.Height);
-                camera.Update(player.Position, map.Width, map.Height);
+                camera.Update(player.position, map.Width, map.Height);
                 player.ColideBetweenPlayers(enemy.rectangle, player.rectangle);
             }
+
+            map.FromOneLevelToAnother(player, Content);
 
             base.Update(gameTime);
         }
