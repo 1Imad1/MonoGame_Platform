@@ -4,18 +4,24 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/player1.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/idle.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/char.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Background.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/enemy1.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile2.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile1.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/enemy2.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Skeletonsheet.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/button.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/containerHeatlhBar.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/health.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/SuperSlash.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/player1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/idle.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/char.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/Background.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/enemy1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/enemy2.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/Skeletonsheet.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/button.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/containerHeatlhBar.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/health.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/SuperSlash.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/goldCoin.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/silverCoin.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/bronzeCoin.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/fireBall.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/NotSaveTile3.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/Tile1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/Tile2.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/A_NewBegining/A_NewBegining/Content/Tile3.png</File>
   </SourceFiles>
 </SourceFileCollection>

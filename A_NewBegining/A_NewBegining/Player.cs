@@ -32,22 +32,21 @@ namespace A_NewBegining
         {
             get { return texture; }
         }
-
+                
         private Input Key = new Input();
         public bool LinkseStand = false;
 
         Animation animation;
         private HealthBar HealthBar;
 
-        public List<Vector2> Bullets;
-        public Texture2D bulletImage;
-        public float BulletSpeed = 400f;
+        Shooter shooter;
 
         public Player()
         {
             position = new Vector2(0, 0);
             velocity = Vector2.Zero;
-            Bullets = new List<Vector2>();
+
+            shooter = new Shooter();
 
             //hierin animatie adden
             animation = new Animation(position, velocity);
@@ -69,17 +68,17 @@ namespace A_NewBegining
         public void LaadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("char");
-            bulletImage = content.Load<Texture2D>("SuperSlash");
+            shooter.load(content);
+
             HealthBar = new HealthBar(content);
         }
 
         public void Draw(SpriteBatch sprite)
         {
+
             sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
             HealthBar.Draw(sprite);
-
-            for (int i = 0; i < Bullets.Count; i++)
-                sprite.Draw(bulletImage, Bullets[i], Color.White);
+            shooter.Draw(sprite);
         }
 
         public void Update(GameTime gameTime)
@@ -94,22 +93,13 @@ namespace A_NewBegining
 
             Debug.WriteLine("position x = " + position.X);
 
-            if (velocity.Y < 10)
+            if (velocity.Y < 11)
                 velocity.Y += 0.4f;
 
             HealthBar.Update(position);
 
+            shooter.Update(gameTime, position, Key);
 
-            if(Key.NormalAttack)
-                Bullets.Add(position);
-
-            for (int i = 0; i < Bullets.Count; i++)
-            {
-                float x = Bullets[i].X + 1;
-
-                x += BulletSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Bullets[i] = new Vector2(x, Bullets[i].Y);
-            }
         }
 
         public void Movement(GameTime gameTime)
@@ -178,9 +168,10 @@ namespace A_NewBegining
             {
                 position.X = newrect.X - rectangle.Width - 16;
             }
+
             if (rectangle.IsTouchingRightOf(newrect))
             {
-                position.X = newrect.X + rectangle.Width + 2 ;
+                position.X = newrect.X + rectangle.Width + 1 ;
             }
             if (rectangle.IsTouchingBottom(newrect))
             {
@@ -213,6 +204,7 @@ namespace A_NewBegining
                 {
                     position.X = enemy.X + rectangle.Width - 26;
                     HealthBar.CurrentHealth--;
+
                 }
 
                 if (player.IsTouchingTopOf(enemy))

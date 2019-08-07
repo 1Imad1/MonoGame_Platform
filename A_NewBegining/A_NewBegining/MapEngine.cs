@@ -34,7 +34,14 @@ namespace A_NewBegining
 
         }
 
-        public void Generate(int[,] map, int size)
+        /// <summary>
+        /// 2D map Tile based
+        /// collisionTiles.Add(new CollisionTiles(number, new Rectangle(x * size, y * size, size, size))); == new tile added, 
+        /// size is de size of the tile and x * size, y * size is the position of the map
+        /// </summary>
+        /// <param name="map"></param>
+        /// <param name="size"></param>
+        public void Generate(int[ , ] map, int size)
         {
             for (int x = 0; x < map.GetLength(1); x++)
             {
@@ -47,14 +54,14 @@ namespace A_NewBegining
                         width = (x + 1) * size;
                         height = (y + 1) * size;
 
+                        
                         collisionTiles.Add(new CollisionTiles(number, new Rectangle(x * size, y * size, size, size)));
-
                     }
                 }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             foreach (CollisionTiles tile in collisionTiles)
             {
@@ -62,15 +69,9 @@ namespace A_NewBegining
             }
         }
 
-        //public void load(ContentManager content)
-        //{
-        //    foreach (CollisionTiles tile in collisionTiles)
-        //    {
-        //        tile.LoadContent(content);
-        //    }
-        //}
+        public virtual void LoadContent(ContentManager content) { }
 
-        public void Unload()
+        public virtual void Unload()
         {
             foreach (CollisionTiles tile in collisionTiles)
             {

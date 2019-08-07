@@ -11,16 +11,12 @@ namespace A_NewBegining
 {
     class CollisionTiles : Tiles
     {
+
         public CollisionTiles(int i, Rectangle newRect)
         {
             texture = Content.Load<Texture2D>("Tile" + i); //loads the tile (tile1, tile2)
             Rectangle = newRect;
         }
-
-        //public void LoadContent(ContentManager content)
-        //{
-        //    texture = Content.Load<Texture2D>("Tile" + i); //loads the tile (tile1, tile2)
-        //}
 
         public void UnloadContent()
         {

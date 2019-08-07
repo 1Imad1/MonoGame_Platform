@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace A_NewBegining
 {
     public class Enemy
     {
+        #region Variabelen
         public Rectangle rectangle;
         private Vector2 velocity;
 
@@ -19,6 +21,7 @@ namespace A_NewBegining
         public Vector2 Position
         {
             get { return position; }
+            set { position = value; }
         }
 
         private Texture2D texture;
@@ -30,15 +33,15 @@ namespace A_NewBegining
         Animation animation;
 
         bool right = false;
-        float distance;
+        public float distance;
         float oldDistance;
         Vector2 origin;
 
-        float rotation = 0f;
+        #endregion
 
-        public Enemy(float newDIS)
+        public Enemy(float newDIS, Vector2 pos)
         {
-            position = new Vector2(700, 230);
+            position = pos;
 
             animation = new Animation(position, velocity);
 
@@ -56,7 +59,7 @@ namespace A_NewBegining
 
         public void LaadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("Skeletonsheet");
+            texture = content.Load<Texture2D>("Skeletonsheet"); 
         }
 
         public void Update(GameTime gameTime)
@@ -81,8 +84,9 @@ namespace A_NewBegining
 
             if (right == true) distance += 1; else distance -= 1;
 
-            //if (velocity.Y < 10)
-            //    velocity.Y += 0.4f;
+            if (velocity.Y < 10)
+                velocity.Y += 0.4f;
+
         }
 
         public void Draw(SpriteBatch sprite)
