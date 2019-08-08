@@ -17,6 +17,8 @@ namespace A_NewBegining
         public List<Vector2> Bullets;
         public Texture2D bulletImage;
         public float BulletSpeed = 200f;
+        public Vector2 position;
+
 
         public Rectangle BoxRoundBullet;
 
@@ -30,13 +32,13 @@ namespace A_NewBegining
             bulletImage = content.Load<Texture2D>("fireBall");
         }
 
-        public void Update(GameTime gameTime, Vector2 pos, Input key)
+        public void Update(GameTime gameTime, Input key)
         {
 
-            BoxRoundBullet = new Rectangle((int)pos.X + 5, (int)pos.Y + 20, 59, 13);
+            BoxRoundBullet = new Rectangle((int)position.X, (int)position.Y, 59, 13);
             if (key.NormalAttack)
             {
-                Bullets.Add(new Vector2(pos.X + 5, pos.Y + 20));
+                Bullets.Add(new Vector2(position.X + 50, position.Y + 18));
             }
 
             for (int i = 0; i < Bullets.Count; i++)

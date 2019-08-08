@@ -21,33 +21,29 @@ namespace A_NewBegining
 
         public int RateOfChange = 1;
 
-        public HealthBar(ContentManager content)
-        {
-            LoadContent(content);
-            FullHealth = Lifebar.Width;
-            CurrentHealth = FullHealth;
-            healthbarRect = new Rectangle((int)Position.X, (int)Position.Y, CurrentHealth, Lifebar.Height);
 
-        }
-
-        private void LoadContent(ContentManager content)
+        public void LoadContent(ContentManager content)
         {
             Lifebar = content.Load<Texture2D>("health");
             Container = content.Load<Texture2D>("containerHeatlhBar");
+
+            FullHealth = Lifebar.Width;
+            CurrentHealth = FullHealth;
         }
 
         public void Update(Vector2 PlayerPosition)
         {
             Position = PlayerPosition;
-
             Debug.WriteLine("curr: " + CurrentHealth);
             Debug.WriteLine("recthealth: " + healthbarRect);
+
+            healthbarRect = new Rectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, CurrentHealth, Lifebar.Height);
 
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Lifebar, Position, healthbarRect, Color.White);
+            spriteBatch.Draw(Lifebar, healthbarRect, Color.White);
             spriteBatch.Draw(Container, Position, Color.White);
         }
     }

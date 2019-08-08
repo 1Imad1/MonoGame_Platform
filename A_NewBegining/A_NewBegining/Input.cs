@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace A_NewBegining
 {
-    class Input
+    public class Input
     {
         #region Properties
         public bool left;

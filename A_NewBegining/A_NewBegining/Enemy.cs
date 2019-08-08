@@ -48,7 +48,6 @@ namespace A_NewBegining
             animation.AddAnimatie(10, 0, 0, "Idle", 20, 33, new Vector2(0, 0));
             animation.AddAnimatie(13, 40, 0, "WalkRight", 22, 34, new Vector2(0, 0));
             animation.AddAnimatie(13, 75, 0, "WalkLeft", 22, 34, new Vector2(0, 0));
-            animation.AnimatieAfspelen("WalkRight");
 
             animation.FramesPerSec = 10;
 
@@ -73,6 +72,7 @@ namespace A_NewBegining
             {
                 right = true;
                 animation.AnimatieAfspelen("WalkRight");
+
                 velocity.X = 1f;
             }
             else if (distance >= oldDistance)
