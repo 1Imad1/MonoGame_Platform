@@ -16,10 +16,6 @@ namespace A_NewBegining
         public bool lvl1 = true;
         public bool lvl2 = false;
         public bool lvl3 = false;
-        //public bool lvl1;
-        //public bool lvl2;
-        //public bool lvl3;
-
         public bool clear = false;
 
         public bool Level1
@@ -38,7 +34,7 @@ namespace A_NewBegining
             set { lvl3 = value; }
         }
 
-        Player player;
+       public Player player;
 
         List<Coin> Coins;
         List<Enemy> MultipleEnemies;
@@ -47,12 +43,15 @@ namespace A_NewBegining
         Camera camera;
         GraphicsDevice Graphics;
 
-        public Matrix TheMatrix;
-
         List<Coin> LevelTwoCoins;
         List<Firejump> Fires;
 
         BeginAndEndPoint EndPoint;
+
+        public bool Ending = false;
+
+        public int counter = 0;
+        public SpriteFont Font;
 
         public Map(ContentManager content, GraphicsDevice graphics)
         {
@@ -109,7 +108,7 @@ namespace A_NewBegining
             Coins.Add(new Coin(new Vector2(541, 519)));
             Coins.Add(new Coin(new Vector2(566, 519)));
 
-            //COINS LEVEL TWO
+            ////COINS LEVEL TWO
             LevelTwoCoins = new List<Coin>();
             LevelTwoCoins.Add(new Coin(new Vector2(66, 327)));
             LevelTwoCoins.Add(new Coin(new Vector2(81, 327)));
@@ -138,15 +137,15 @@ namespace A_NewBegining
             LevelTwoCoins.Add(new Coin(new Vector2(879, 72)));
             LevelTwoCoins.Add(new Coin(new Vector2(894, 72)));
 
-            //LEVEL THREE CONTENT
+            ////LEVEL THREE CONTENT
 
             Fires = new List<Firejump>();
-            Fires.Add(new Firejump(new Vector2(100, 0)));
             Fires.Add(new Firejump(new Vector2(200, 0)));
             Fires.Add(new Firejump(new Vector2(300, 0)));
             Fires.Add(new Firejump(new Vector2(400, 0)));
             Fires.Add(new Firejump(new Vector2(500, 0)));
             Fires.Add(new Firejump(new Vector2(600, 0)));
+            Fires.Add(new Firejump(new Vector2(690, 0)));
             Fires.Add(new Firejump(new Vector2(800, 0)));
 
             level_one(content);
@@ -193,7 +192,7 @@ namespace A_NewBegining
 
             Generate(new int[,]{
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {13,14,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
@@ -227,6 +226,19 @@ namespace A_NewBegining
                 level_three(content);
                 player.position = new Vector2(0, 0);
                 Level3 = true;
+
+            }
+        }
+
+        public void BackToMainMenu(ContentManager content)
+        {
+            if ((player.rectangle.IsTouchingLeftOf(EndPoint.rectangle)) && Level3 == true)
+            {
+                Unload();
+                player.position = new Vector2(0, 0);
+                Level3 = false;
+                Ending = true;
+
             }
         }
 
@@ -237,6 +249,7 @@ namespace A_NewBegining
                 if (player.rectangle.IsTouchingTopOf(tile.Rectangle) && tile.texture == Content.Load<Texture2D>("Tile17"))
                 {
                     player.position = new Vector2(0, 0);
+                    player.Health -= 18;
                 }
             }
         }
@@ -247,13 +260,8 @@ namespace A_NewBegining
 
             EndPoint.Update(gameTime);
 
-            foreach (Firejump fire in Fires)
-            {
-                fire.Update(gameTime);
-            }
-
+            foreach (Firejump fire in Fires) { fire.Update(gameTime); }
             foreach (Coin coin in Coins) { coin.Update(gameTime); }
-
             foreach (Enemy enemy in MultipleEnemies) { enemy.Update(gameTime); }
 
             foreach (CollisionTiles tile in CollisionTiles)
@@ -262,29 +270,13 @@ namespace A_NewBegining
                 EndPoint.Collision(tile.Rectangle, Width, Height);
 
 
-                foreach (Firejump fire in Fires)
-                {
-                    fire.Collision(tile.Rectangle, Width, Height);
-                }
-
-                foreach (Coin coin in Coins)
-                {
-                    coin.Collision(tile.Rectangle, Width, Height);
-                }
-
-                if(lvl2 == true)
-                    foreach (Coin coin in LevelTwoCoins){ coin.Collision(tile.Rectangle, Width, Height); }
-
-                foreach (Enemy enemy in MultipleEnemies)
-                {
-                    enemy.Collision(tile.Rectangle, Width, Height);
-                    player.ColideBetweenPlayers(enemy.rectangle, player.rectangle);
-                }
-
                 NotSafeTiles(Content);
                 camera.Update(player.position, Width, Height);
 
-                TheMatrix = camera.Transform;
+                foreach (Firejump fire in Fires) { fire.Collision(tile.Rectangle, Width, Height); }
+                foreach (Coin coin in Coins) { coin.Collision(tile.Rectangle, Width, Height); }
+                foreach (Enemy enemy in MultipleEnemies) { enemy.Collision(tile.Rectangle, Width, Height); player.ColideBetweenPlayers(enemy.rectangle, player.rectangle); }
+                foreach (Coin coin in LevelTwoCoins) { coin.Collision(tile.Rectangle, Width, Height); }
             }
 
             for (int i = 0; i < Coins.Count; ++i)
@@ -294,6 +286,8 @@ namespace A_NewBegining
                 {
                     Coins.RemoveAt(i);
                     --i;
+
+                    counter++;
                 }
             }
 
@@ -302,17 +296,8 @@ namespace A_NewBegining
             if (Level2 == true)
             {
                 Coins.Clear();
-                //MultipleEnemies.Clear();
-
-                foreach (Enemy enemy in MultipleEnemies)
-                {
-                    enemy.Update(gameTime);
-                }
-
+                MultipleEnemies.Clear();
                 EndPoint.position = new Vector2(845, 388);
-
-
-                Level2ToLevel3(content);
 
                 for (int i = 0; i < LevelTwoCoins.Count; ++i)
                 {
@@ -321,10 +306,15 @@ namespace A_NewBegining
                     {
                         LevelTwoCoins.RemoveAt(i);
                         --i;
+
+                        counter++;
                     }
                 }
 
                 foreach (Coin coin in LevelTwoCoins) { coin.Update(gameTime); }
+
+
+                Level2ToLevel3(content);
             }
 
 
@@ -337,26 +327,46 @@ namespace A_NewBegining
                     if (player.rectangle.IsTouchingBottom(fire.rectangle)) //determine if the sprite collided here
                     {
                         player.position = new Vector2(0, 0);
-                        
+                        counter--;
+                        player.Health--;
                     }
                 }
+
+                EndPoint.position = new Vector2(1343, 518);
+
+                BackToMainMenu(content);
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {            
-            base.Draw(spriteBatch);
-            EndPoint.Draw(spriteBatch);
-            player.Draw(spriteBatch);
+        {
 
-            if(Level3 == true)
-                foreach (Firejump fire in Fires) { fire.Draw(spriteBatch); }
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                      BlendState.AlphaBlend,
+                      null, null, null, null,
+                      camera.Transform);
 
-            foreach (Coin coin in Coins) { coin.Draw(spriteBatch); }
-            foreach (Enemy enemy in MultipleEnemies) { enemy.Draw(spriteBatch); }
+                base.Draw(spriteBatch);
 
-            if (Level2 == true)
-                foreach (Coin coin in LevelTwoCoins) { coin.Draw(spriteBatch); }
+                EndPoint.Draw(spriteBatch);
+                player.Draw(spriteBatch);
+
+                foreach (Coin coin in Coins) { coin.Draw(spriteBatch); }
+                foreach (Enemy enemy in MultipleEnemies) { enemy.Draw(spriteBatch); }
+
+                if (Level2 == true)
+                    foreach (Coin coin in LevelTwoCoins) { coin.Draw(spriteBatch); }
+
+                if (Level3 == true)
+                    foreach (Firejump fire in Fires) { fire.Draw(spriteBatch); }
+
+
+            spriteBatch.End();
+
+            //DRAW SCORE ON 
+            spriteBatch.Begin();
+            spriteBatch.DrawString(Font, "Coins: " + counter, new Vector2(2, 0), Color.Black);
+            spriteBatch.End();
         }
 
         public override void LoadContent(ContentManager content)
@@ -365,16 +375,16 @@ namespace A_NewBegining
 
             EndPoint.LoadContent(content);
             player.LaadContent(content);
-
-            foreach (Firejump fire in Fires) { fire.LaadContent(content); }
-
             camera = new Camera(Graphics.Viewport);
 
             foreach (Coin coin in Coins) { coin.LaadContent(content); }
             foreach (Enemy enemy in MultipleEnemies) { enemy.LaadContent(content); }
 
-
             foreach (Coin coin in LevelTwoCoins) { coin.LaadContent(content); }
+
+            foreach (Firejump fire in Fires) { fire.LaadContent(content); }
+
+            Font = Content.Load<SpriteFont>("Score");
         }
     }
 }

@@ -18,12 +18,12 @@ namespace A_NewBegining
         public Texture2D bulletImage;
         public float BulletSpeed = 200f;
         public Vector2 position;
-        public Rectangle BoxRoundBullet;
+        public Rectangle rectangle;
+        public Vector2 velocity;
 
         public Shooter()
-        {
+        { 
             Bullets = new List<Vector2>();
-
         }
 
         public void load(ContentManager content)
@@ -31,13 +31,14 @@ namespace A_NewBegining
             bulletImage = content.Load<Texture2D>("fireBall");
         }
 
-        public void Update(GameTime gameTime, Input key)
+        public void Update(GameTime gameTime, Input key,Vector2 position)        
         {
+            this.position = position;
 
-            BoxRoundBullet = new Rectangle((int)position.X, (int)position.Y, 59, 13);
+            position += velocity;
             if (key.NormalAttack)
             {
-                Bullets.Add(new Vector2(position.X + 50, position.Y + 18));
+                Bullets.Add(new Vector2(position.X + 50, position.Y + 13));
             }
 
             for (int i = 0; i < Bullets.Count; i++)
@@ -48,12 +49,32 @@ namespace A_NewBegining
                 Bullets[i] = new Vector2(x + 2, Bullets[i].Y);
             }
 
+            if (velocity.Y > 10)
+                velocity.Y += 0.4f;
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < Bullets.Count; i++)
                 spriteBatch.Draw(bulletImage, Bullets[i], Color.White);
+        }
+
+        public void Collision(Rectangle enemy)
+        {
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 59, 13);
+
+            if (rectangle.Intersects(enemy))
+            {
+                    for (int i = 0; i < Bullets.Count; ++i)
+                    {
+                        if (rectangle.IsTouchingLeftOf(enemy)) //determine if the sprite collided here
+                        {
+                            Bullets.RemoveAt(i);
+                            --i;
+                        }
+                    }
+            }
         }
     }
 }

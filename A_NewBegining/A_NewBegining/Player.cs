@@ -38,9 +38,14 @@ namespace A_NewBegining
 
         Animation animation;
 
-        //Shooter shooter;
-        HealthBar healthBar;
-        
+        public HealthBar healthBar;
+
+        public int Health
+        {
+            get { return healthBar.CurrentHealth; }
+            set { healthBar.CurrentHealth = value; }
+        }
+
         public Player()
         {
             position = new Vector2(0, 0);
@@ -48,7 +53,6 @@ namespace A_NewBegining
             Key = new Input();
 
             healthBar = new HealthBar();
-
 
             //hierin animatie adden
             animation = new Animation(position, velocity);
@@ -62,30 +66,26 @@ namespace A_NewBegining
             animation.AddAnimatie(3, 481, 0, "Kick", 64, 64, new Vector2(0, 0));
             animation.AddAnimatie(4, 618, 0, "RightGunAttack", 64, 64, new Vector2(0, 0));
             animation.AddAnimatie(4, 686, 0, "LeftGunAttack", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(4, 686, 0, "Jump", 64, 64, new Vector2(0, 0));
+
+            animation.AnimatieAfspelen("RechterIdle");
 
             animation.FramesPerSec = 8;
-
-            //shooter = new Shooter();
         }
 
         public void LaadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("player1");
+            texture = content.Load<Texture2D>("Player1");
 
             healthBar.LoadContent(content);
-
-
-            //shooter.load(content);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (healthBar.CurrentHealth > 0)
-                spriteBatch.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White/*, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f*/);
+            
+            spriteBatch.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White/*, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f*/);
             
             healthBar.Draw(spriteBatch);
-
-            //shooter.Draw(spriteBatch);
         }
 
         public void Update(GameTime gameTime)
@@ -103,8 +103,6 @@ namespace A_NewBegining
 
             if (velocity.Y < 11)
                 velocity.Y += 0.4f;
-
-            //shooter.Update(gameTime, Key);
             healthBar.Update(position);
         }
 
@@ -198,20 +196,18 @@ namespace A_NewBegining
 
         public void ColideBetweenPlayers(Rectangle enemy, Rectangle player)
         {
-
             if (player.Intersects(enemy))
             {
                 if (player.IsTouchingLeftOf(enemy))
                 {
                     position.X = enemy.X - rectangle.Width - 2;
                     healthBar.CurrentHealth--;
-
                 }
 
                 if (player.IsTouchingRightOf(enemy))
                 {
                     position.X = enemy.X + rectangle.Width - 25;
-
+                    healthBar.CurrentHealth--;
                 }
 
                 if (player.IsTouchingTopOf(enemy))
@@ -219,6 +215,8 @@ namespace A_NewBegining
                     rectangle.Y = enemy.Y - rectangle.Height;
                     velocity.Y = 0f;
                     hasJumped = false;
+
+                    healthBar.CurrentHealth--;
                 }
             }
         }

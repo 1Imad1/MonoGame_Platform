@@ -26,6 +26,9 @@ namespace A_NewBegining
             animation = new Animation(position, velocity);
 
             animation.AddAnimatie(54, 0, 0, "Jump", 14, 45, new Vector2(0, 0));
+
+
+            animation.AnimatieAfspelen("Jump");
             animation.FramesPerSec = 70;
 
         }
@@ -45,9 +48,6 @@ namespace A_NewBegining
             position += velocity;
             animation.Update(gameTime);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 14, 39);
-
-
-            animation.AnimatieAfspelen("Jump");
 
             if (velocity.Y < 10)
                 velocity.Y += 0.4f;

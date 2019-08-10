@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Diagnostics;
+using A_NewBegining.States;
 
 namespace A_NewBegining
 {
@@ -11,11 +12,23 @@ namespace A_NewBegining
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Map map;
+        Texture2D GameBackground;
+        Vector2 GameBackgroundPosition;
 
-        Texture2D background;
-        Vector2 backPos;
-        
+        private State _currentState;
+
+        private State _nextState;
+
+        //bool paused;
+        //Texture2D pausedTexture;
+        //Rectangle pausedRect;
+        //Button Btnpl, Btnqt;
+
+        public void ChangeState(State state)
+        {
+            _nextState = state;
+        }
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -24,8 +37,7 @@ namespace A_NewBegining
 
         protected override void Initialize()
         {
-            map = new Map(Content, GraphicsDevice);
-
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -33,13 +45,13 @@ namespace A_NewBegining
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            map.LoadContent(Content);
+            _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
 
-            background = Content.Load<Texture2D>("BG");
-            backPos = new Vector2(0, 0);
+            GameBackground = Content.Load<Texture2D>("BG");
+            GameBackgroundPosition = new Vector2(0, 0);
 
-            if (map.Level1 == true)
-                Debug.WriteLine("terueeee");
+            //pausedTexture = Content.Load<Texture2D>("paused");
+            //pausedRect = new Rectangle(0, 0, pausedTexture.Width, pausedTexture.Height);
         }
 
         protected override void UnloadContent()
@@ -52,9 +64,25 @@ namespace A_NewBegining
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            map.update(gameTime , Content);
-            
-            //map.Level1ToLevel2(Content);
+            //if (Keyboard.GetState().IsKeyDown(Keys.B))
+            //    paused = true;
+
+            //if (Keyboard.GetState().IsKeyDown(Keys.N))
+            //    paused = false
+;
+            if (_nextState != null)
+            {
+                _currentState = _nextState;
+
+                _nextState = null;
+            }
+
+
+
+            _currentState.Update(gameTime, Content);
+
+            _currentState.PostUpdate(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -62,15 +90,19 @@ namespace A_NewBegining
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, 
-                              BlendState.AlphaBlend,
-                              null,null,null,null,
-                              map.TheMatrix);
-            spriteBatch.Draw(background, backPos, Color.White);
-
-            map.Draw(spriteBatch);
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(GameBackground, GameBackgroundPosition, Color.White);
             spriteBatch.End();
+            
+            _currentState.Draw(gameTime, spriteBatch);
+
+            //if (paused == true)
+            //{
+            //    spriteBatch.Begin();
+            //    spriteBatch.Draw(pausedTexture, pausedRect, Color.White);
+            //    spriteBatch.End();
+            //}
+
             base.Draw(gameTime);
         }
     }
