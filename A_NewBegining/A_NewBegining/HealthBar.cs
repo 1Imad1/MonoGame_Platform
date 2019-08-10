@@ -34,8 +34,6 @@ namespace A_NewBegining
         public void Update(Vector2 PlayerPosition)
         {
             Position = PlayerPosition;
-            Debug.WriteLine("curr: " + CurrentHealth);
-            Debug.WriteLine("recthealth: " + healthbarRect);
 
             healthbarRect = new Rectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, CurrentHealth, Lifebar.Height);
 

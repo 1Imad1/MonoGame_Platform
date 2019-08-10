@@ -11,12 +11,33 @@ using System.Threading.Tasks;
 
 namespace A_NewBegining
 {
-    class Map : MapEngine
+    class Map : MapEngine, ILevels
     {
         public bool lvl1 = true;
         public bool lvl2 = false;
         public bool lvl3 = false;
-        
+        //public bool lvl1;
+        //public bool lvl2;
+        //public bool lvl3;
+
+        public bool clear = false;
+
+        public bool Level1
+        {
+            get { return lvl1; }
+            set { lvl1 = value; }
+        }
+        public bool Level2
+        {
+            get { return lvl2; }
+            set { lvl2 = value; }
+        }
+        public bool Level3
+        {
+            get { return lvl3; }
+            set { lvl3 = value; }
+        }
+
         Player player;
 
         List<Coin> Coins;
@@ -28,12 +49,19 @@ namespace A_NewBegining
 
         public Matrix TheMatrix;
 
+        List<Coin> LevelTwoCoins;
+        List<Firejump> Fires;
+
+        BeginAndEndPoint EndPoint;
+
         public Map(ContentManager content, GraphicsDevice graphics)
         {
             Content = content;
             Graphics = graphics;
 
             player = new Player();
+
+            EndPoint = new BeginAndEndPoint(new Vector2(1034, 0), new Vector2(0, 4));
 
             MultipleEnemies = new List<Enemy>();
             MultipleEnemies.Add(new Enemy(50, new Vector2(300, 0)));
@@ -80,8 +108,49 @@ namespace A_NewBegining
             Coins.Add(new Coin(new Vector2(526, 519)));
             Coins.Add(new Coin(new Vector2(541, 519)));
             Coins.Add(new Coin(new Vector2(566, 519)));
-        }
 
+            //COINS LEVEL TWO
+            LevelTwoCoins = new List<Coin>();
+            LevelTwoCoins.Add(new Coin(new Vector2(66, 327)));
+            LevelTwoCoins.Add(new Coin(new Vector2(81, 327)));
+            LevelTwoCoins.Add(new Coin(new Vector2(96, 327)));
+            LevelTwoCoins.Add(new Coin(new Vector2(111, 327)));
+
+            LevelTwoCoins.Add(new Coin(new Vector2(320, 261)));
+            LevelTwoCoins.Add(new Coin(new Vector2(335, 261)));
+            LevelTwoCoins.Add(new Coin(new Vector2(350, 261)));
+            LevelTwoCoins.Add(new Coin(new Vector2(365, 261)));
+
+            LevelTwoCoins.Add(new Coin(new Vector2(519, 199)));
+            LevelTwoCoins.Add(new Coin(new Vector2(534, 199)));
+            LevelTwoCoins.Add(new Coin(new Vector2(549, 199)));
+
+            LevelTwoCoins.Add(new Coin(new Vector2(642, 139)));
+            LevelTwoCoins.Add(new Coin(new Vector2(657, 139)));
+            LevelTwoCoins.Add(new Coin(new Vector2(672, 139)));
+            LevelTwoCoins.Add(new Coin(new Vector2(687, 139)));
+
+
+            LevelTwoCoins.Add(new Coin(new Vector2(819, 72)));
+            LevelTwoCoins.Add(new Coin(new Vector2(834, 72)));
+            LevelTwoCoins.Add(new Coin(new Vector2(849, 72)));
+            LevelTwoCoins.Add(new Coin(new Vector2(864, 72)));
+            LevelTwoCoins.Add(new Coin(new Vector2(879, 72)));
+            LevelTwoCoins.Add(new Coin(new Vector2(894, 72)));
+
+            //LEVEL THREE CONTENT
+
+            Fires = new List<Firejump>();
+            Fires.Add(new Firejump(new Vector2(100, 0)));
+            Fires.Add(new Firejump(new Vector2(200, 0)));
+            Fires.Add(new Firejump(new Vector2(300, 0)));
+            Fires.Add(new Firejump(new Vector2(400, 0)));
+            Fires.Add(new Firejump(new Vector2(500, 0)));
+            Fires.Add(new Firejump(new Vector2(600, 0)));
+            Fires.Add(new Firejump(new Vector2(800, 0)));
+
+            level_one(content);
+        }
 
         public virtual void level_one(ContentManager content)
         {
@@ -118,28 +187,46 @@ namespace A_NewBegining
                 {17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,},
             }, 64);
         }
+        public void level_three(ContentManager content)
+        {
+            Tiles.Content = content;
+
+            Generate(new int[,]{
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,},
+            }, 64);
+        }
 
         public void Level1ToLevel2(ContentManager content)
         {
-            //from level 1 to level 2
-            if (player.position.X >= 1034 && lvl1 == true)
+            if ((player.rectangle.IsTouchingRightOf(EndPoint.rectangle)) && Level1 == true)
             {
                 Unload();
-                lvl1 = false;
+                Level1 = false;
                 level_two(content);
                 player.position = new Vector2(0, 0);
-                lvl2 = true;
+                Level2 = true;
             }
         }
 
         public void Level2ToLevel3(ContentManager content)
         {
-            if (player.position.X >= 1080 && lvl2 == true)
+            if ((player.rectangle.IsTouchingTopOf(EndPoint.rectangle)) && Level2 == true)
             {
                 Unload();
-                lvl2 = false;
-                level_one(content);
+
+                Level2 = false;
+                level_three(content);
                 player.position = new Vector2(0, 0);
+                Level3 = true;
             }
         }
 
@@ -150,14 +237,20 @@ namespace A_NewBegining
                 if (player.rectangle.IsTouchingTopOf(tile.Rectangle) && tile.texture == Content.Load<Texture2D>("Tile17"))
                 {
                     player.position = new Vector2(0, 0);
-
                 }
             }
         }
 
-        public void update(GameTime gameTime)
+        public void update(GameTime gameTime, ContentManager content)
         {
             player.Update(gameTime);
+
+            EndPoint.Update(gameTime);
+
+            foreach (Firejump fire in Fires)
+            {
+                fire.Update(gameTime);
+            }
 
             foreach (Coin coin in Coins) { coin.Update(gameTime); }
 
@@ -166,12 +259,21 @@ namespace A_NewBegining
             foreach (CollisionTiles tile in CollisionTiles)
             {
                 player.Collision(tile.Rectangle, Width, Height);
-                
+                EndPoint.Collision(tile.Rectangle, Width, Height);
+
+
+                foreach (Firejump fire in Fires)
+                {
+                    fire.Collision(tile.Rectangle, Width, Height);
+                }
 
                 foreach (Coin coin in Coins)
                 {
                     coin.Collision(tile.Rectangle, Width, Height);
                 }
+
+                if(lvl2 == true)
+                    foreach (Coin coin in LevelTwoCoins){ coin.Collision(tile.Rectangle, Width, Height); }
 
                 foreach (Enemy enemy in MultipleEnemies)
                 {
@@ -197,12 +299,46 @@ namespace A_NewBegining
 
             Level1ToLevel2(Content);
 
-            for (int i = 0; i < MultipleEnemies.Count; ++i)
+            if (Level2 == true)
             {
-                Enemy enemy = MultipleEnemies[i];
-                if (player.rectangle.IsTouchingLeftOf(enemy.rectangle)) //determine if the sprite collided here
+                Coins.Clear();
+                //MultipleEnemies.Clear();
+
+                foreach (Enemy enemy in MultipleEnemies)
                 {
-                    
+                    enemy.Update(gameTime);
+                }
+
+                EndPoint.position = new Vector2(845, 388);
+
+
+                Level2ToLevel3(content);
+
+                for (int i = 0; i < LevelTwoCoins.Count; ++i)
+                {
+                    Coin coin = LevelTwoCoins[i];
+                    if (player.rectangle.IsTouchingLeftOf(coin.rectangle) || player.rectangle.IsTouchingRightOf(coin.rectangle) || player.rectangle.IsTouchingTopOf(coin.rectangle)) //determine if the sprite collided here
+                    {
+                        LevelTwoCoins.RemoveAt(i);
+                        --i;
+                    }
+                }
+
+                foreach (Coin coin in LevelTwoCoins) { coin.Update(gameTime); }
+            }
+
+
+
+            if (lvl3 == true)
+            {
+                for (int i = 0; i < Fires.Count; ++i)
+                {
+                    Firejump fire = Fires[i];
+                    if (player.rectangle.IsTouchingBottom(fire.rectangle)) //determine if the sprite collided here
+                    {
+                        player.position = new Vector2(0, 0);
+                        
+                    }
                 }
             }
         }
@@ -210,28 +346,35 @@ namespace A_NewBegining
         public override void Draw(SpriteBatch spriteBatch)
         {            
             base.Draw(spriteBatch);
+            EndPoint.Draw(spriteBatch);
             player.Draw(spriteBatch);
+
+            if(Level3 == true)
+                foreach (Firejump fire in Fires) { fire.Draw(spriteBatch); }
 
             foreach (Coin coin in Coins) { coin.Draw(spriteBatch); }
             foreach (Enemy enemy in MultipleEnemies) { enemy.Draw(spriteBatch); }
+
+            if (Level2 == true)
+                foreach (Coin coin in LevelTwoCoins) { coin.Draw(spriteBatch); }
         }
 
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
 
-            foreach (Coin coin in Coins)
-            {
-                coin.LaadContent(content);
-            }
-
-            foreach (Enemy enemy in MultipleEnemies)
-            {
-                enemy.LaadContent(content);
-            }
-
+            EndPoint.LoadContent(content);
             player.LaadContent(content);
+
+            foreach (Firejump fire in Fires) { fire.LaadContent(content); }
+
             camera = new Camera(Graphics.Viewport);
+
+            foreach (Coin coin in Coins) { coin.LaadContent(content); }
+            foreach (Enemy enemy in MultipleEnemies) { enemy.LaadContent(content); }
+
+
+            foreach (Coin coin in LevelTwoCoins) { coin.LaadContent(content); }
         }
     }
 }

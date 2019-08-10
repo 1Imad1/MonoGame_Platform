@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace A_NewBegining
 {
-    public class Input
+    public class Input: IController
     {
         #region Properties
         public bool left;

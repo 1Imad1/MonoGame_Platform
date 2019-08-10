@@ -15,7 +15,6 @@ namespace A_NewBegining
 
         Texture2D background;
         Vector2 backPos;
-        HealthBar health;
         
         public Game1()
         {
@@ -26,7 +25,6 @@ namespace A_NewBegining
         protected override void Initialize()
         {
             map = new Map(Content, GraphicsDevice);
-            map.level_one(Content);
 
             base.Initialize();
         }
@@ -39,6 +37,9 @@ namespace A_NewBegining
 
             background = Content.Load<Texture2D>("BG");
             backPos = new Vector2(0, 0);
+
+            if (map.Level1 == true)
+                Debug.WriteLine("terueeee");
         }
 
         protected override void UnloadContent()
@@ -51,9 +52,9 @@ namespace A_NewBegining
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            map.update(gameTime);
-            map.Level1ToLevel2(Content);
-
+            map.update(gameTime , Content);
+            
+            //map.Level1ToLevel2(Content);
             base.Update(gameTime);
         }
 

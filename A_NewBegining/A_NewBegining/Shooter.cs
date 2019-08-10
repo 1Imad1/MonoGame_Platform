@@ -18,13 +18,12 @@ namespace A_NewBegining
         public Texture2D bulletImage;
         public float BulletSpeed = 200f;
         public Vector2 position;
-
-
         public Rectangle BoxRoundBullet;
 
         public Shooter()
         {
             Bullets = new List<Vector2>();
+
         }
 
         public void load(ContentManager content)
