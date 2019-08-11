@@ -20,7 +20,6 @@ namespace A_NewBegining
         public bool up;
         public bool down;
         public bool normalAttack;
-        public bool comboAttack;
 
         public bool hasJumped = false;
 
@@ -53,16 +52,10 @@ namespace A_NewBegining
             get { return normalAttack; }
             set { normalAttack = value; }
         }
-
-        public bool ComboAttack
-        {
-            get { return comboAttack; }
-            set { comboAttack = value; }
-        }
         #endregion
 
 
-        public void update()
+        public void Update()
         {
             KeyboardState keyState = Keyboard.GetState();
 
@@ -106,24 +99,14 @@ namespace A_NewBegining
                 Right = false;
             }
 
-            if (keyState.IsKeyDown(Keys.A))
+            if (keyState.IsKeyDown(Keys.Z))
             {
                 NormalAttack = true;
             }
 
-            if (keyState.IsKeyUp(Keys.A))
-            {
-                NormalAttack = false;
-            }
-
-            if (keyState.IsKeyDown(Keys.Z))
-            {
-                ComboAttack = true;
-            }
-
             if (keyState.IsKeyUp(Keys.Z))
             {
-                ComboAttack = false;
+                NormalAttack = false;
             }
         }
     }

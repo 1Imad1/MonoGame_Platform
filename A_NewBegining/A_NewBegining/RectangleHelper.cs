@@ -11,14 +11,13 @@ using System.Threading.Tasks;
 namespace A_NewBegining
 {
     /// <summary>
-    /// wich part the player wil be colliding with
+    /// This helps to better understand the collision between sprites (rectangle around sprites)
     /// </summary>
 
     static class RectangleHelper
     {
         public static bool IsTouchingTopOf(this Rectangle r1, Rectangle r2)
         {
-            //
             return (r1.Bottom >= r2.Top - 1 &&
                     r1.Bottom <= r2.Top + (r2.Height / 2) &&
                     r1.Right >= r2.Left + r2.Width / 5 &&

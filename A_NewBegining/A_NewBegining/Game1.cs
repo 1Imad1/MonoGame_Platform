@@ -16,13 +16,7 @@ namespace A_NewBegining
         Vector2 GameBackgroundPosition;
 
         private State _currentState;
-
         private State _nextState;
-
-        //bool paused;
-        //Texture2D pausedTexture;
-        //Rectangle pausedRect;
-        //Button Btnpl, Btnqt;
 
         public void ChangeState(State state)
         {
@@ -49,9 +43,6 @@ namespace A_NewBegining
 
             GameBackground = Content.Load<Texture2D>("BG");
             GameBackgroundPosition = new Vector2(0, 0);
-
-            //pausedTexture = Content.Load<Texture2D>("paused");
-            //pausedRect = new Rectangle(0, 0, pausedTexture.Width, pausedTexture.Height);
         }
 
         protected override void UnloadContent()
@@ -63,12 +54,6 @@ namespace A_NewBegining
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.B))
-            //    paused = true;
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.N))
-            //    paused = false
 ;
             if (_nextState != null)
             {
@@ -76,8 +61,6 @@ namespace A_NewBegining
 
                 _nextState = null;
             }
-
-
 
             _currentState.Update(gameTime, Content);
 
@@ -95,13 +78,6 @@ namespace A_NewBegining
             spriteBatch.End();
             
             _currentState.Draw(gameTime, spriteBatch);
-
-            //if (paused == true)
-            //{
-            //    spriteBatch.Begin();
-            //    spriteBatch.Draw(pausedTexture, pausedRect, Color.White);
-            //    spriteBatch.End();
-            //}
 
             base.Draw(gameTime);
         }

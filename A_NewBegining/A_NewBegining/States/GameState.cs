@@ -11,14 +11,19 @@ using Microsoft.Xna.Framework.Input;
 
 namespace A_NewBegining.States
 {
+    /// <summary>
+    /// the gamestate class shows the game in prograss, everything we created in the map class wil be shown after this class is been called
+    /// </summary>
     public class GameState : State
     {
         Map map;
         public SpriteFont Font;
 
+        //Everything needed so you can pause the game at playtime
         bool paused;
         Texture2D pausedTexture;
         Rectangle pausedRect;
+
         private List<Component> _components;
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
@@ -59,6 +64,7 @@ namespace A_NewBegining.States
             foreach (var component in _components)
                 component.Update(gameTime);
 
+            //if you didn't klik p, then you can still press it and if you press the game won't update unless you klick play again
             if (!paused)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.P))
@@ -72,6 +78,7 @@ namespace A_NewBegining.States
         {
             map.Draw(spriteBatch);
 
+            //pause screen wil come on
             if (paused == true)
             {
                 spriteBatch.Begin();
@@ -86,13 +93,11 @@ namespace A_NewBegining.States
 
         public override void PostUpdate(GameTime gameTime)
         {
-            if(map.Ending == true || map.player.Health <= 0)
+            if (map.YouLose == true || map.player.healthBar.CurrentHealth <= 0)
                 _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
-        }
 
-        public void load(ContentManager content)
-        {
-
+            else if(map.YouWon == true || map.player.healthBar.CurrentHealth <= 0)
+                _game.ChangeState(new YouWonState(_game, _graphicsDevice, _content));
         }
     }
 }

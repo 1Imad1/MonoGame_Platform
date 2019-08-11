@@ -17,8 +17,7 @@ namespace A_NewBegining
         bool Up { get; set; }
         bool Down { get; set; }
         bool NormalAttack { get; set; }
-        bool ComboAttack { get; set; }
 
-        void update();
+        void Update();
     }
 }

@@ -15,12 +15,21 @@ namespace A_NewBegining
     {
         public Texture2D Container, Lifebar;
         public Vector2 Position;
-        public int FullHealth;
-        public int CurrentHealth;
+        private int fullHealth;
+        private int currentHealth;
         public Rectangle healthbarRect;
+                
+        public int CurrentHealth
+        {
+            get { return currentHealth; }
+            set { currentHealth = value; }
+        }
 
-        public int RateOfChange = 1;
-
+        public int FullHealth
+        {
+            get { return fullHealth; }
+            set { fullHealth = value; }
+        }
 
         public void LoadContent(ContentManager content)
         {
@@ -28,21 +37,21 @@ namespace A_NewBegining
             Container = content.Load<Texture2D>("containerHeatlhBar");
 
             FullHealth = Lifebar.Width;
-            CurrentHealth = FullHealth;
+            currentHealth = FullHealth;
         }
 
         public void Update(Vector2 PlayerPosition)
         {
             Position = PlayerPosition;
 
-            healthbarRect = new Rectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, CurrentHealth, Lifebar.Height);
+            healthbarRect = new Rectangle((int)PlayerPosition.X, (int)PlayerPosition.Y - 5, CurrentHealth, Lifebar.Height);
 
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Lifebar, healthbarRect, Color.White);
-            spriteBatch.Draw(Container, Position, Color.White);
+            spriteBatch.Draw(Container, new Vector2(Position.X, Position.Y - 5), Color.White);
         }
     }
 }

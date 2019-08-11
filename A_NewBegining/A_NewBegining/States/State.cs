@@ -19,6 +19,11 @@ namespace A_NewBegining.States
 
         protected Game1 _game;
 
+        protected Player player = new Player();
+
+        public bool IsCurrent;
+        public bool IsNotCurrent;
+
         #endregion
 
         #region Methods

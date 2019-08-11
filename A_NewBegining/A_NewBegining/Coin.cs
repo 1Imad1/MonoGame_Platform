@@ -13,10 +13,10 @@ namespace A_NewBegining
 {
     public class Coin
     {
-        public Rectangle rectangle;
-        public Vector2 position;
-        public Texture2D texture;
         Animation animation;
+        public Vector2 position;
+        public Rectangle rectangle;
+        public Texture2D texture;
         public Vector2 velocity;
         
         public Coin(Vector2 pos)
@@ -25,29 +25,24 @@ namespace A_NewBegining
             animation = new Animation(position, velocity);
 
             animation.AddAnimatie(4, 0, 0, "Coin", 15, 16, new Vector2(0, 0));
-
-            animation.AnimatieAfspelen("Coin");
+            animation.Afspelen("Coin");
             animation.FramesPerSec = 10;
-
         }
 
         public void LaadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("goldCoin");
-            
+            texture = content.Load<Texture2D>("goldCoin");            
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White);
-           
+            spriteBatch.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White);           
         }
 
         public void Update(GameTime gameTime)
         {
             position += velocity;
             animation.Update(gameTime);
-
 
             if (velocity.Y < 10)
                 velocity.Y += 0.4f;
@@ -61,14 +56,12 @@ namespace A_NewBegining
             {
                 rectangle.Y = newrect.Y - rectangle.Height;
                 velocity.Y = 0f;
-
             }
 
             if (position.X < 0) position.X = 0;
             if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.X = yOffset - rectangle.Height;
-
         }
     }
 }

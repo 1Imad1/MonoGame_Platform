@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace A_NewBegining
 {
+    /// <summary>
+    /// Makes it possible to switch between Levels
+    /// </summary>
     interface ILevels
     {
-        bool Level1 { get; set; }
-        bool Level2 { get; set; }
-        bool Level3 { get; set; }
-
+        bool Level1IsCurrentLevel { get; set; }
+        bool Level2IsCurrentLevel { get; set; }
+        bool Level3IsCurrentLevel { get; set; }
     }
 }

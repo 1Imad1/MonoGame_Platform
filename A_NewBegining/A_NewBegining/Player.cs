@@ -13,19 +13,18 @@ namespace A_NewBegining
 {
     public class Player
     {
-        public Rectangle rectangle;
+        Animation animation;
 
-        public Vector2 velocity;
+        public HealthBar healthBar;
         private bool hasJumped = false;
 
-        public float speed = 2.5f;
+        public Input Key;
+
+        public bool LinkseStand = false;
 
         public Vector2 position;
-        //public Vector2 Position
-        //{
-        //    get { return position; }
-        //    set { value = position; }
-        //}
+        public Rectangle rectangle;
+        public float speed = 2.5f;
 
         private Texture2D texture;
         public Texture2D Texture
@@ -33,18 +32,7 @@ namespace A_NewBegining
             get { return texture; }
         }
 
-        public Input Key; 
-        public bool LinkseStand = false;
-
-        Animation animation;
-
-        public HealthBar healthBar;
-
-        public int Health
-        {
-            get { return healthBar.CurrentHealth; }
-            set { healthBar.CurrentHealth = value; }
-        }
+        public Vector2 velocity;
 
         public Player()
         {
@@ -68,7 +56,7 @@ namespace A_NewBegining
             animation.AddAnimatie(4, 686, 0, "LeftGunAttack", 64, 64, new Vector2(0, 0));
             animation.AddAnimatie(4, 686, 0, "Jump", 64, 64, new Vector2(0, 0));
 
-            animation.AnimatieAfspelen("RechterIdle");
+            animation.Afspelen("RechterIdle");
 
             animation.FramesPerSec = 8;
         }
@@ -95,14 +83,12 @@ namespace A_NewBegining
             //animatie update
             animation.Update(gameTime);
 
-            Key.update();
+            Key.Update();
             Movement(gameTime);
-
-            Debug.WriteLine("player pos x = " + position.X);
-            Debug.WriteLine("player pos y = " + position.Y);
 
             if (velocity.Y < 11)
                 velocity.Y += 0.4f;
+
             healthBar.Update(position);
         }
 
@@ -111,50 +97,41 @@ namespace A_NewBegining
             //animatie afspelen in de input
             if (Key.Right)
             {
-                animation.AnimatieAfspelen("Right");
+                animation.Afspelen("Right");
                 velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
 
                 LinkseStand = false;
             }
             else if (Key.Left)
             {
-                animation.AnimatieAfspelen("Left");
+                animation.Afspelen("Left");
                 velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
 
                 LinkseStand = true;
             }
             else if (Key.NormalAttack && LinkseStand == false)
             {
-                animation.AnimatieAfspelen("RightGunAttack");
+                animation.Afspelen("RightFistAttack");
+                Key.Right = false;
             }
             else if (Key.NormalAttack && LinkseStand == true)
             {
-                animation.AnimatieAfspelen("LeftGunAttack");
-            }
-            else if (Key.ComboAttack && LinkseStand == false)
-            {
-                animation.AnimatieAfspelen("RightFistAttack");
-                Key.Right = false;
-            }
-            else if (Key.ComboAttack && LinkseStand == true)
-            {
-                animation.AnimatieAfspelen("LeftFistAttack");
+                animation.Afspelen("LeftFistAttack");
             }
             else
             {
                 if (LinkseStand == true)
                 {
-                    animation.AnimatieAfspelen("LinkseIdle");
+                    animation.Afspelen("LinkseIdle");
                 }
                 else                    
-                    animation.AnimatieAfspelen("RechteIdle");
+                    animation.Afspelen("RechteIdle");
 
                 velocity.X = 0f;
             }
 
             if (Key.up && hasJumped == false)
             {
-                //animation.AnimatieAfspelen("Jump");
                 position.Y -= 2f;
                 velocity.Y = -9f;
                 hasJumped = true;
@@ -183,7 +160,6 @@ namespace A_NewBegining
             }
             if (rectangle.IsTouchingBottom(newrect))
             {
-               // rectangle.Y = newrect.Y - rectangle.Height - 150;
                 velocity.Y = 5f;
             }
 
@@ -194,7 +170,7 @@ namespace A_NewBegining
 
         }
 
-        public void ColideBetweenPlayers(Rectangle enemy, Rectangle player)
+        public void ColideWithEnemy(Rectangle enemy, Rectangle player)
         {
             if (player.Intersects(enemy))
             {

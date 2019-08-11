@@ -39,16 +39,10 @@ namespace A_NewBegining
             spriteBatch.Draw(startTexture, StartPositie, Color.White);
         }
 
-        public  void Unload()
-        {
-            rectangle = new Rectangle(0, 0, 0, 0);
-        }
-
         public void Update(GameTime gameTime)
         {
             position += velocity;
             rectangle = new Rectangle((int)position.X, (int)position.Y, 63, 65);
-
 
             if (velocity.Y < 10)
                 velocity.Y += 0.2f;
@@ -66,7 +60,6 @@ namespace A_NewBegining
             if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.X = yOffset - rectangle.Height;
-
         }
     }
 }
