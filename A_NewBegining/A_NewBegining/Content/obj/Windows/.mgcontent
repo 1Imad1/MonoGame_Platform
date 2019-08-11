@@ -4,18 +4,46 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/player1.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/idle.png</File>
     <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/char.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Background.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/enemy1.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile2.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile1.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/enemy2.png</File>
     <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Skeletonsheet.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/button.png</File>
     <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/containerHeatlhBar.png</File>
     <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/health.png</File>
-    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/SuperSlash.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/goldCoin.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/silverCoin.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/bronzeCoin.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/fireBall.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/NotSaveTile3.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Player1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile1.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile2.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile3.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile4.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile5.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile6.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile7.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile8.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile9.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile10.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile11.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile12.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile13.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile14.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile15.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile16.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile17.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Tile18.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/BG.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Begin.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Next.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Jumping_Small_Fireball_14x45.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Font.spritefont</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Button.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/TestButton.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/MenuBackground.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Score.spritefont</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/GAMEOVER.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/paused.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/PowerUp.png</File>
+    <File>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/YouWon.png</File>
   </SourceFiles>
 </SourceFileCollection>

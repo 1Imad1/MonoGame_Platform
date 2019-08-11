@@ -13,19 +13,18 @@ namespace A_NewBegining
 {
     public class Player
     {
-        public Rectangle rectangle;
+        Animation animation;
 
-        public Vector2 velocity;
+        public HealthBar healthBar;
         private bool hasJumped = false;
 
-        public float speed = 2.5f;
+        public Input Key;
+
+        public bool LinkseStand = false;
 
         public Vector2 position;
-        //public Vector2 Position
-        //{
-        //    get { return position; }
-        //    set { value = position; }
-        //}
+        public Rectangle rectangle;
+        public float speed = 2.5f;
 
         private Texture2D texture;
         public Texture2D Texture
@@ -33,53 +32,48 @@ namespace A_NewBegining
             get { return texture; }
         }
 
-        private Input Key = new Input();
-        public bool LinkseStand = false;
-
-        Animation animation;
-        private HealthBar HealthBar;
-
-        public List<Vector2> Bullets;
-        public Texture2D bulletImage;
-        public float BulletSpeed = 400f;
+        public Vector2 velocity;
 
         public Player()
         {
             position = new Vector2(0, 0);
             velocity = Vector2.Zero;
-            Bullets = new List<Vector2>();
+            Key = new Input();
+
+            healthBar = new HealthBar();
 
             //hierin animatie adden
             animation = new Animation(position, velocity);
 
-            animation.AddAnimatie(4, 0, 0, "RechteIdle", 50, 35, new Vector2(0, 0));
-            animation.AddAnimatie(4, 34, 0, "LinkseIdle", 50, 35, new Vector2(0, 0));
-            animation.AddAnimatie(6, 72, 0, "Right", 50, 34, new Vector2(0, 0));
-            animation.AddAnimatie(6, 107.9, 0, "Left", 50, 40, new Vector2(0, 0));
-            animation.AddAnimatie(4, 180, 0, "RightSlide", 50, 32, new Vector2(0, 0));
-            animation.AddAnimatie(4, 180, 4, "LeftSlide", 50, 32, new Vector2(0, 0));
-            animation.AddAnimatie(7, 255, 0, "FirstAttack", 50, 45, new Vector2(0, 0));
-            animation.AddAnimatie(14, 300, 0, "ComboAttack", 50, 41, new Vector2(0, 0));
-            animation.AddAnimatie(5, 300, 0, "Dood", 50, 41, new Vector2(0, 0));
-            animation.AddAnimatie(9, 144, 0, "Jump", 46, 41, new Vector2(0, 0));
+            animation.AddAnimatie(4, 2, 0, "RechteIdle", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(4, 68, 0, "LinkseIdle", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(6, 133, 0, "Right", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(6, 205, 0, "Left", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(3, 340, 0, "RightFistAttack", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(3, 410, 0, "LeftFistAttack", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(3, 481, 0, "Kick", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(4, 618, 0, "RightGunAttack", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(4, 686, 0, "LeftGunAttack", 64, 64, new Vector2(0, 0));
+            animation.AddAnimatie(4, 686, 0, "Jump", 64, 64, new Vector2(0, 0));
 
-            animation.FramesPerSec = 10;
+            animation.Afspelen("RechterIdle");
+
+            animation.FramesPerSec = 8;
         }
 
         public void LaadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("char");
-            bulletImage = content.Load<Texture2D>("SuperSlash");
-            HealthBar = new HealthBar(content);
+            texture = content.Load<Texture2D>("Player1");
+
+            healthBar.LoadContent(content);
         }
 
-        public void Draw(SpriteBatch sprite)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-            HealthBar.Draw(sprite);
-
-            for (int i = 0; i < Bullets.Count; i++)
-                sprite.Draw(bulletImage, Bullets[i], Color.White);
+            
+            spriteBatch.Draw(texture, position, animation.RectanglesAnimaties[animation.currentAnimatie][animation.frameIndex], Color.White/*, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f*/);
+            
+            healthBar.Draw(spriteBatch);
         }
 
         public void Update(GameTime gameTime)
@@ -89,27 +83,13 @@ namespace A_NewBegining
             //animatie update
             animation.Update(gameTime);
 
-            Key.update();
+            Key.Update();
             Movement(gameTime);
 
-            Debug.WriteLine("position x = " + position.X);
-
-            if (velocity.Y < 10)
+            if (velocity.Y < 11)
                 velocity.Y += 0.4f;
 
-            HealthBar.Update(position);
-
-
-            if(Key.NormalAttack)
-                Bullets.Add(position);
-
-            for (int i = 0; i < Bullets.Count; i++)
-            {
-                float x = Bullets[i].X + 1;
-
-                x += BulletSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Bullets[i] = new Vector2(x, Bullets[i].Y);
-            }
+            healthBar.Update(position);
         }
 
         public void Movement(GameTime gameTime)
@@ -117,47 +97,42 @@ namespace A_NewBegining
             //animatie afspelen in de input
             if (Key.Right)
             {
-                animation.AnimatieAfspelen("Right");
+                animation.Afspelen("Right");
                 velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
 
                 LinkseStand = false;
             }
             else if (Key.Left)
             {
-                animation.AnimatieAfspelen("Left");
+                animation.Afspelen("Left");
                 velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
 
                 LinkseStand = true;
             }
-            else if (Key.Down && LinkseStand == false)
+            else if (Key.NormalAttack && LinkseStand == false)
             {
-                animation.AnimatieAfspelen("RightSlide");
+                animation.Afspelen("RightFistAttack");
+                Key.Right = false;
             }
-            else if ((Key.Down && LinkseStand == true))
+            else if (Key.NormalAttack && LinkseStand == true)
             {
-                animation.AnimatieAfspelen("LeftSlide");
-            }
-            else if (Key.NormalAttack)
-            {
-                animation.AnimatieAfspelen("FirstAttack");
-            }
-            else if (Key.ComboAttack)
-            {
-                animation.AnimatieAfspelen("ComboAttack");
+                animation.Afspelen("LeftFistAttack");
             }
             else
             {
                 if (LinkseStand == true)
-                    animation.AnimatieAfspelen("LinkseIdle");
-                else
-                    animation.AnimatieAfspelen("RechteIdle");
+                {
+                    animation.Afspelen("LinkseIdle");
+                }
+                else                    
+                    animation.Afspelen("RechteIdle");
+
                 velocity.X = 0f;
             }
 
-
             if (Key.up && hasJumped == false)
             {
-                position.Y -= 5f;
+                position.Y -= 2f;
                 velocity.Y = -9f;
                 hasJumped = true;
 
@@ -166,53 +141,49 @@ namespace A_NewBegining
 
         public void Collision(Rectangle newrect, int xOffset, int yOffset)
         {
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 38, 50);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 54, 60);
             if (rectangle.IsTouchingTopOf(newrect))
             {
                 rectangle.Y = newrect.Y - rectangle.Height;
-                velocity.Y = 0;
+                velocity.Y = 0f;
                 hasJumped = false;
             }
 
             if (rectangle.IsTouchingLeftOf(newrect))
             {
-                position.X = newrect.X - rectangle.Width - 16;
+                position.X = newrect.X - rectangle.Width - 2;
             }
+
             if (rectangle.IsTouchingRightOf(newrect))
             {
-                position.X = newrect.X + rectangle.Width + 2 ;
+                position.X = newrect.X + rectangle.Width + 12;
             }
             if (rectangle.IsTouchingBottom(newrect))
             {
-                //rectangle.Y = rectangle.Y + rectangle.Height;
-                velocity.Y = 1f;
+                velocity.Y = 5f;
             }
 
             if (position.X < 0) position.X = 0;
             if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.X = yOffset - rectangle.Height;
+
         }
 
-        public void ColideBetweenPlayers(Rectangle enemy, Rectangle player)
+        public void ColideWithEnemy(Rectangle enemy, Rectangle player)
         {
             if (player.Intersects(enemy))
             {
-                if (player.Right <= enemy.Right &&
-                    player.Right >= enemy.Left + 2 &&
-                    player.Top <= enemy.Bottom - (enemy.Width / 4) &&
-                    player.Bottom >= enemy.Top + (enemy.Width / 4))
+                if (player.IsTouchingLeftOf(enemy))
                 {
                     position.X = enemy.X - rectangle.Width - 2;
+                    healthBar.CurrentHealth--;
                 }
 
-                if (player.Left >= enemy.Left &&
-                    player.Left <= enemy.Right - 20 &&
-                    player.Top <= enemy.Bottom - (enemy.Width / 4) &&
-                    player.Bottom >= enemy.Top + (enemy.Width / 4))
+                if (player.IsTouchingRightOf(enemy))
                 {
-                    position.X = enemy.X + rectangle.Width - 26;
-                    HealthBar.CurrentHealth--;
+                    position.X = enemy.X + rectangle.Width - 25;
+                    healthBar.CurrentHealth--;
                 }
 
                 if (player.IsTouchingTopOf(enemy))
@@ -220,6 +191,8 @@ namespace A_NewBegining
                     rectangle.Y = enemy.Y - rectangle.Height;
                     velocity.Y = 0f;
                     hasJumped = false;
+
+                    healthBar.CurrentHealth--;
                 }
             }
         }

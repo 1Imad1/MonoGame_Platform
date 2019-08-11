@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/button.png</SourceFile>
-  <SourceTime>2019-07-06T16:43:13.6173134+02:00</SourceTime>
-  <DestFile>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/bin/Windows/button.xnb</DestFile>
-  <DestTime>2019-08-05T21:42:57.6908379+02:00</DestTime>
+  <SourceFile>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/Button.png</SourceFile>
+  <SourceTime>2019-07-06T17:47:42.8800242+02:00</SourceTime>
+  <DestFile>C:/Users/Imad/Documents/2deJaar/Sem1/Game Dev 6Stud/MonoGame_Platform/A_NewBegining/A_NewBegining/Content/bin/Windows/Button.xnb</DestFile>
+  <DestTime>2019-08-11T21:20:49.4055011+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

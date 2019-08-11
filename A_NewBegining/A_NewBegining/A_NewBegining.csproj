@@ -42,26 +42,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="Firejump.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Coin.cs" />
     <Compile Include="CollisionTiles.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="GameStateManager.cs" />
+    <Compile Include="States\GameOverState.cs" />
     <Compile Include="HealthBar.cs" />
     <Compile Include="IController.cs" />
-    <Compile Include="IGameState.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="LevelSwitching.cs" />
+    <Compile Include="ILevels.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapEngine.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="BeginAndEndPoint.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleHelper.cs" />
-    <Compile Include="Shooter.cs" />
-    <Compile Include="TestGameState.cs" />
+    <Compile Include="States\GameState.cs" />
+    <Compile Include="States\MenuStates.cs" />
+    <Compile Include="States\State.cs" />
+    <Compile Include="States\YouWonState.cs" />
     <Compile Include="Tiles.cs" />
   </ItemGroup>
   <ItemGroup>

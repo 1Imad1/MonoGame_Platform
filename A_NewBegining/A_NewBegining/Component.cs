@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 namespace A_NewBegining
 {
+    /// <summary>
+    /// Is used in de states classes to make a list of buttons (components) on screen so you can use it
+    /// </summary>
     public abstract class Component
     {
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);

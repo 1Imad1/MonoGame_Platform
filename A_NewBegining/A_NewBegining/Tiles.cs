@@ -11,7 +11,7 @@ namespace A_NewBegining
 {
     class Tiles
     {
-        protected Texture2D texture;
+        public Texture2D texture;
 
         private Rectangle rectangle;
         public Rectangle Rectangle

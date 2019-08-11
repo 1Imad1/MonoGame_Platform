@@ -9,32 +9,24 @@ using System.Threading.Tasks;
 
 namespace A_NewBegining
 {
+    /// <summary>
+    /// this class makes it possible to Generate the map hence the name MapEngine
+    /// </summary>
     class MapEngine
     {
         private List<CollisionTiles> collisionTiles = new List<CollisionTiles>();
-
-        public List<CollisionTiles> CollisionTiles
-        {
-            get { return collisionTiles; }
-        }
+        public List<CollisionTiles> CollisionTiles { get { return collisionTiles; } }
 
         private int width, height;
-        public int Width
-        {
-            get { return width; }
-        }
+        public int Width { get { return width; } }
+        public int Height { get { return height; } }
 
-        public int Height
-        {
-            get { return height; }
-        }
-
-        public MapEngine()
-        {
-
-        }
-
-        public void Generate(int[,] map, int size)
+        /// <summary>
+        /// 2D map Tile Generator 
+        /// </summary>
+        /// <param name="map"> the map that you wil create and generate </param>
+        /// <param name="size"> Size of the map </param>
+        public void Generate(int[ , ] map, int size)
         {
             for (int x = 0; x < map.GetLength(1); x++)
             {
@@ -47,14 +39,14 @@ namespace A_NewBegining
                         width = (x + 1) * size;
                         height = (y + 1) * size;
 
+                        
                         collisionTiles.Add(new CollisionTiles(number, new Rectangle(x * size, y * size, size, size)));
-
                     }
                 }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             foreach (CollisionTiles tile in collisionTiles)
             {
@@ -62,15 +54,9 @@ namespace A_NewBegining
             }
         }
 
-        //public void load(ContentManager content)
-        //{
-        //    foreach (CollisionTiles tile in collisionTiles)
-        //    {
-        //        tile.LoadContent(content);
-        //    }
-        //}
+        public virtual void LoadContent(ContentManager content) { }
 
-        public void Unload()
+        public virtual void Unload()
         {
             foreach (CollisionTiles tile in collisionTiles)
             {

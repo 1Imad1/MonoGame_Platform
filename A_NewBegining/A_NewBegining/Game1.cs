@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Diagnostics;
+using A_NewBegining.States;
 
 namespace A_NewBegining
 {
@@ -10,14 +12,16 @@ namespace A_NewBegining
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Map map;
+        Texture2D GameBackground;
+        Vector2 GameBackgroundPosition;
 
-        Player player;
-        Enemy enemy;
-        Camera camera;
+        private State _currentState;
+        private State _nextState;
 
-        Texture2D background;
-        Vector2 backPos;
+        public void ChangeState(State state)
+        {
+            _nextState = state;
+        }
 
         public Game1()
         {
@@ -27,12 +31,7 @@ namespace A_NewBegining
 
         protected override void Initialize()
         {
-
-            enemy = new Enemy(80);
-            player = new Player();
-            map = new Map();
-            map.level_one(Content);
-
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -40,14 +39,10 @@ namespace A_NewBegining
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player.LaadContent(Content);
-            enemy.LaadContent(Content);
+            _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
 
-            background = Content.Load<Texture2D>("Background");
-            backPos = new Vector2(0, 0);
-        
-
-            camera = new Camera(GraphicsDevice.Viewport);
+            GameBackground = Content.Load<Texture2D>("BG");
+            GameBackgroundPosition = new Vector2(0, 0);
         }
 
         protected override void UnloadContent()
@@ -59,19 +54,17 @@ namespace A_NewBegining
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-                       
-            player.Update(gameTime);
-            enemy.Update(gameTime);
-
-            foreach (CollisionTiles tile in map.CollisionTiles)
+;
+            if (_nextState != null)
             {
-                player.Collision(tile.Rectangle, map.Width, map.Height);
-                enemy.Collision(tile.Rectangle, map.Width, map.Height);
-                camera.Update(player.position, map.Width, map.Height);
-                player.ColideBetweenPlayers(enemy.rectangle, player.rectangle);
+                _currentState = _nextState;
+
+                _nextState = null;
             }
 
-            map.FromOneLevelToAnother(player, Content);
+            _currentState.Update(gameTime, Content);
+
+            _currentState.PostUpdate(gameTime);
 
             base.Update(gameTime);
         }
@@ -80,19 +73,12 @@ namespace A_NewBegining
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, 
-                              BlendState.AlphaBlend,
-                              null,null,null,null,
-                              camera.Transform);
-            spriteBatch.Draw(background, backPos, Color.White);
-
-            map.Draw(spriteBatch);
-
-            
-            player.Draw(spriteBatch);
-            enemy.Draw(spriteBatch);
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(GameBackground, GameBackgroundPosition, Color.White);
             spriteBatch.End();
+            
+            _currentState.Draw(gameTime, spriteBatch);
+
             base.Draw(gameTime);
         }
     }
