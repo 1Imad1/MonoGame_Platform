@@ -24,12 +24,12 @@ A 2D platform game made with monogame framework (C#)
 * Shooting
 
 # Obectives I completed
-:ballot_box_with_check: Start menu <br>
-:ballot_box_with_check: 2 levels (done 3) <br>
-:ballot_box_with_check: Losing / Winning screen <br>
-:ballot_box_with_check: Movement <br>
-:ballot_box_with_check: Collision Detection <br>
-:ballot_box_with_check: Enemies
+* Start menu <br>
+* 2 levels (done 3) <br>
+* Losing / Winning screen <br>
+* Movement <br>
+* Collision Detection <br>
+* Enemies
 
 # What I learned
 * SOLID principles
